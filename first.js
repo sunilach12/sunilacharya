@@ -6,3 +6,7 @@ function download(file) {
   link.click();
   document.body.removeChild(link);
 }
+function playMusic() {
+  const audio = document.getElementById("mysong");
+  audio.play();
+}
