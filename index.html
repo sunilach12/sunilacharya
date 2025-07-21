@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sunil website</title>
+  <link rel="stylesheet" href="website.css" />
+</head>
+<body>
+  <header>
+    <h1>🎵 Music Hub</h1>
+    <div class="social">
+      <a href="#"><img src="facebook.png" alt="Facebook"></a>
+      <a href="#"><img src="instagram.png" alt="Instagram"></a>
+    </div>
+  </header>
+
+  <section class="songs">
+    <div class="song-card">
+      <h3>My Song 1</h3>
+      <audio controls>
+        <source src="song1.mp3" type="audio/mpeg" />
+      </audio>
+      <button onclick="download('song1.mp3')">Download</button>
+    </div>
+    <div class="song-card">
+      <h3>My Song 2</h3>
+      <audio controls>
+        <source src="song2.mp3" type="audio/mpeg" />
+      </audio>
+      <button onclick="download('song2.mp3')">Download</button>
+    </div>
+  </section>
+
+  <script src="first.js"></script>
+</body>
+</html>
