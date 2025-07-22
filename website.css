@@ -1,23 +1,38 @@
-body {
-  font-family: Arial, sans-serif;
-  background: url('music-bg.jpg') no-repeat center center fixed;
-  background-size: cover;
-  color: white;
-  margin: 0;
-  padding: 0;
+ /* style.css */
+
+/* Animate the entire header text */
+@keyframes slideFade {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-header {
-  background: rgba(0, 0, 0, 0.7);
-  padding: 1em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Optional glowing effect */
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #ffffff;
+  }
+  50% {
+    text-shadow: 0 0 20px #00ffd5, 0 0 30px #00ffd5;
+  }
+  100% {
+    text-shadow: 0 0 5px #ffffff;
+  }
 }
 
-header h1 {
-  margin: 0;
+h1 {
+  font-family: 'Orbitron', sans-serif; /* Or any Google Font you like */
+  font-size: 2.8em;
+  color: #00ffd5;
+  margin-top: 2em;
+  animation: slideFade 1.5s ease-out, glow 3s infinite;
 }
+ 
 
  
 
