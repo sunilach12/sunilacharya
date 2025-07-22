@@ -1,3 +1,13 @@
+function playAudio() {
+  const player = document.getElementById('audioPlayer');
+  player.play();
+}
+
+function pauseAudio() {
+  const player = document.getElementById('audioPlayer');
+  player.pause();
+}
+
 function download(file) {
   const link = document.createElement('a');
   link.href = file;
@@ -6,4 +16,3 @@ function download(file) {
   link.click();
   document.body.removeChild(link);
 }
- 
