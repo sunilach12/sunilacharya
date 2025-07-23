@@ -85,57 +85,42 @@ h1 {
   background: linear-gradient(135deg, #8e66ff, #573acc);
 }
 
-    
-
-    footer {
-      background-color: #1576D3;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      font-size: 0.9em;
-    }
-
-    .fb-icon {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 100;
-    }
-
-    .fb-icon a {
-      display: inline-block;
-      width: 50px;
-      height: 50px;
-      background-color: #3b5998;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 50px;
-      color: white;
-      font-size: 24px;
-      text-decoration: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      transition: background-color 0.3s ease;
-    }
-
-    .fb-icon a:hover {
-      background-color: fffff5;
-    }
-
-
-
-.social-icons {
-  display: inline-flex;
-  gap: 15px;
-}
-
-.social-icons img {
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-  transition: transform 0.3s;
-}
-
-.social-icons a:hover img {
-  transform: scale(1.1);
-} 
  
+
+   .bottom-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to right, #1a237e, #283593);
+  padding: 12px 20px;
+  border-top: 2px solid #7f53ac;
+  color: #e0e0e0;
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  z-index: 999;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.3);
+}
+
+.social-icons-bottom {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 6px;
+}
+
+.social-icons-bottom img {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s;
+  filter: drop-shadow(0 0 3px #ccc);
+}
+
+.social-icons-bottom img:hover {
+  transform: scale(1.2);
+}
+
+.bottom-banner .copyright-label {
+  font-size: 13px;
+  color: #ccc;
+  text-align: center;
+}
