@@ -13,33 +13,28 @@
   
  <center>  <i><h1>  Welcome to my website   </h1> </i></center>
  
-  
-
+<div class="song-bar">
   <div class="song-card">
-    <audio controls id="audioPlayer">
-       <source src="/music1.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="audioPlayer1" src="/music1.mp3" controls></audio>
+    <button onclick="playAudio('audioPlayer1')">Play</button>
+    <button onclick="pauseAudio('audioPlayer1')">Pause</button>
     <button onclick="download('music1.mp3')">Download</button>
   </div>
-   <!-- Repeat this div for other songs -->
-
+  
   <div class="song-card">
-    <audio controls id="audioPlayer1">
-       <source src="/alpha.mp3" type="audio/mpeg">
-    </audio>
-  <br>
+    <audio id="audioPlayer2" src="/alpha.mp3" controls></audio>
+    <button onclick="playAudio('audioPlayer2')">Play</button>
+    <button onclick="pauseAudio('audioPlayer2')">Pause</button>
     <button onclick="download('alpha.mp3')">Download</button>
   </div>
-   <!-- Repeat this div for other songs -->
-
+  
   <div class="song-card">
-    <audio controls id="audioPlayer2">year
-       <source src="/year.___hindi_new_song_2025(256k)" type="audio/mpeg">
-    </audio>
-    <br>
-    <button onclick="download('year.___hindi_new_song_2025(256k)')">Download</button>
+    <audio id="audioPlayer3" src="/year___hindi_new_song_2025.mp3" controls></audio>
+    <button onclick="playAudio('audioPlayer3')">Play</button>
+    <button onclick="pauseAudio('audioPlayer3')">Pause</button>
+    <button onclick="download('year___hindi_new_song_2025.mp3')">Download</button>
   </div>
-   <!-- Repeat this div for other songs -->
+</div>
 
   <center> 
   <footer>
