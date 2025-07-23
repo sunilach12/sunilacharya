@@ -1,6 +1,6 @@
 
-  function playAudio(playerId) {
-    const audio = document.getElementById(playerId);
+  function playAudio(audioPlayer1,audioPlayer2,audioPlayer3) {
+    const audio = document.getElementById("audioPlayer1","audioPlayer2","audioPlayer3");
     audio.play();
   }
 
