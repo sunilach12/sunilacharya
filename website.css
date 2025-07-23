@@ -36,20 +36,33 @@ h1 {
 
  
 
-.songs {
+.song-card {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  margin-top: 2em;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.song-card {
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 20px;
-  margin: 10px;
-  border-radius: 12px;
-  text-align: center;
-  width: 300px;
+.song-card audio {
+  width: 200px;
+}
+
+.song-card button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #ff69b4; /* Light pink */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.song-card button:hover {
+  transform: scale(1.05);
 }
 
 button {
