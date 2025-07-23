@@ -3,7 +3,9 @@ function playAudio() {
   const player = document.getElementById('audioPlayer');
    const player1 = document.getElementById('audioPlayer1');
    const player2 = document.getElementById('audioPlayer2');
-  
+  player.play();
+  player1.play();
+  player2.play();
 }
 
 function pauseAudio() {
