@@ -1,6 +1,6 @@
 
      function playAudio(playerId) {
-      const players = ['audioPlayer1', 'audioPlayer2', 'audioPlayer3'];
+      const players = ['audioPlayer1', 'audioPlayer2', 'audioPlayer3','audioPlayer4'];
       players.forEach(id => {
         const audio = document.getElementById(id);
         if (audio && id !== playerId) {
