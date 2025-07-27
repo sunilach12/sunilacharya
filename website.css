@@ -130,11 +130,11 @@ html, body {
 }
 
 .footer-content a {
-  color: #b0b0ff;
+  color: #black;
   text-decoration: none;
   font-weight: bold;
 }
 
 .footer-content a:hover {
-  text-decoration: underline;
+  text-decoration:;
 }
