@@ -79,39 +79,34 @@ html, body {
 
  /*Social media Icon +*/
 
-   .bottom-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: linear-gradient(to right, #1a237e, #283593);
-  padding: 12px 20px;
-  border-top: 2px solid #7f53ac;
-  color: #e0e0e0;
-  font-family: 'Noto Sans Devanagari', sans-serif;
-  z-index: 999;
-  box-shadow: 0 -2px 6px rgba(0,0,0,0.3);
+  .bottom-banner {
+  background-color: white;
+  color: #fff;
+  padding: 30px 20px;
+  text-align: center;
+  font-family: sans-serif;
 }
 
 .social-icons-bottom {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 6px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.social-icons-bottom img {
-  width: 28px;
-  height: 28px;
-  transition: transform 0.3s;
-  filter: drop-shadow(0 0 3px #ccc);
+.social-icons-bottom  {
+  margin: 0 10px;
+  display: inline-block;
 }
 
-.social-icons-bottom img:hover {
-  transform: scale(1.2);
+.social-icons img {
+  width: 30px;
+  height: 30px;
+  filter: brightness(0) invert(1); /* makes icons white */
+  transition: transform 0.3s ease;
 }
 
-
+.social-icons img:hover {
+  transform: scale(1.2);
+}
 /*Copy right isue*/
 
  .footer-banner {
