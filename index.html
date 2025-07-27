@@ -11,13 +11,38 @@
   
   <script src="first.js"></script>
    <link rel="stylesheet" href="website.css">
+<center>  <i><h1>  Welcome to my website   </h1> </i></center>
+<style>
+  body {
+  background: linear-gradient(135deg, #2e0f3a, #4a236f, #7b3ba2);
+  background-size: 400% 400%;
+  animation: auraShift 15s ease infinite;
+  color: #f0f0f0;
+  position: relative;
+  overflow: hidden;
+}
 
-  
-  
- <center>  <i><h1>  Welcome to my website   </h1> </i></center>
+body::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url('sanskrit-mandala-light.svg'); /* Replace with your asset URL */
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
 
+@keyframes auraShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
   
- 
+</style>
  
 <div class="song-bar">
   <div class="song-card">
