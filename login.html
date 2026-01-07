@@ -2,30 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login - Sunil's Music Website</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Themer - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .login-btn {
+      background-color: #1877F2; /* Facebook blue */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      margin: 10px;
+    }
+    .login-btn img {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <label for="username">Username</label>
-      <input type="text" id="username" required>
+  <h1>Login to Themer</h1>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" required>
+  <!-- Facebook Login Button -->
+  <button class="login-btn" onclick="loginWithFacebook()">
+    <img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Facebook">
+    Login with Facebook
+  </button>
 
-      <button type="submit">Login</button>
-    </form>
+  <!-- Load the Facebook SDK -->
+  <script async defer crossorigin="anonymous"
+    src="https://connect.facebook.net/en_US/sdk.js"></script>
 
-    <div class="social-login">
-      <p>Or login with:</p>
-      <button class="google-btn" onclick="loginWithGoogle()">Google</button>
-      <button class="facebook-btn" onclick="loginWithFacebook()">Facebook</button>
-    </div>
+  <script>
+    // Initialize the Facebook SDK
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1358574255560305', // Your App ID
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v21.0'
+      });
+    };
 
-    <p>Don’t have an account? <a href="signup.html">Sign up here</a></p>
-  </div>
-  <script src="script.js"></script>
+    // Function to handle login
+    function loginWithFacebook() {
+      FB.login(function(response) {
+        if (response.authResponse) {
+          FB.api('/me', {fields: 'name,email'}, function(userInfo) {
+            alert('Login successful! Welcome ' + userInfo.name + ' (' + userInfo.email + ')');
+            // Redirect to homepage after login
+            window.location.href = "index.html";
+          });
+        } else {
+          alert('Login failed or cancelled.');
+        }
+      }, {scope: 'email'});
+    }
+  </script>
 </body>
-</html> 
+</html>
