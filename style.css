@@ -1,0 +1,70 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: #222;
+  padding: 30px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+  text-align: left;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #ffcc00;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #ffaa00;
+}
+
+.social-login {
+  margin-top: 15px;
+}
+
+.google-btn {
+  background: #4285F4;
+  color: #fff;
+  margin: 5px;
+}
+
+.facebook-btn {
+  background: #3b5998;
+  color: #fff;
+  margin: 5px;
+}
+
+a {
+  color: #ffcc00;
+  text-decoration: none;
+}
