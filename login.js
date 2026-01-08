@@ -1,4 +1,4 @@
-// Elements
+// ---------------- UI TOGGLE ----------------
 const loginBox = document.getElementById('loginBox');
 const signupBox = document.getElementById('signupBox');
 const showSignup = document.getElementById('showSignup');
@@ -19,14 +19,15 @@ const loginError = document.getElementById('loginError');
 
 loginForm.addEventListener('submit', function(e){
   e.preventDefault();
-  const input = document.getElementById('loginInput').value.trim(); // can be email or username
+  const input = document.getElementById('loginInput').value.trim(); // email or username
   const password = document.getElementById('loginPassword').value.trim();
 
   const users = JSON.parse(localStorage.getItem('users')) || [];
-  const user = users.find(u => (u.email === input || u.username === input) && u.password === password);
+  const user = users.find(u => (u.email===input || u.username===input) && u.password===password);
 
   if(user){
-    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('isLoggedIn','true');
+    localStorage.setItem('currentUser', JSON.stringify(user));
     window.location.href = "index.html";
   } else {
     loginError.classList.remove('hidden');
@@ -45,7 +46,6 @@ signupForm.addEventListener('submit', function(e){
   const password = document.getElementById('signupPassword').value.trim();
   const confirmPassword = document.getElementById('confirmPassword').value.trim();
 
-  // Validate username
   const usernameRegex = /^[a-z0-9!@#$%^&*]{5}$/;
   if(!usernameRegex.test(username)){
     signupError.textContent = "Username must be 5 chars: lowercase letters, numbers, symbols.";
@@ -53,7 +53,7 @@ signupForm.addEventListener('submit', function(e){
     return;
   }
 
-  if(password !== confirmPassword){
+  if(password!==confirmPassword){
     signupError.textContent = "Passwords do not match!";
     signupError.classList.remove('hidden');
     return;
@@ -66,37 +66,42 @@ signupForm.addEventListener('submit', function(e){
     return;
   }
 
-  users.push({username, email, password});
-  localStorage.setItem('users', JSON.stringify(users));
+  users.push({username,email,password,photo:""});
+  localStorage.setItem('users',JSON.stringify(users));
 
-  // Switch to login after signup
   signupError.classList.add('hidden');
   signupForm.reset();
   loginBox.classList.remove('hidden');
   signupBox.classList.add('hidden');
-  document.getElementById('loginInput').value = email; // prefill email
+  document.getElementById('loginInput').value = email;
   alert("Signup successful! Please login.");
 });
 
 // ---------------- GOOGLE LOGIN ----------------
-function handleCredentialResponse(response) {
-  localStorage.setItem('isLoggedIn', 'true');
-  window.location.href = "index.html";
+function handleCredentialResponse(response){
+  const userGoogle = {username:"GoogleUser", email:"googleuser@gmail.com", photo:""};
+  localStorage.setItem('isLoggedIn','true');
+  localStorage.setItem('currentUser', JSON.stringify(userGoogle));
+  window.location.href="index.html";
 }
 
-window.onload = function () {
+window.onload = function(){
   google.accounts.id.initialize({
-    client_id: "16883781766-5mp4j8t5ancqj9r4j4l9quos4io5baqk.apps.googleusercontent.com", // Replace with your client ID
-    callback: handleCredentialResponse
+    client_id:"16883781766-5mp4j8t5ancqj9r4j4l9quos4io5baqk.apps.googleusercontent.com",
+    callback:handleCredentialResponse
   });
   google.accounts.id.renderButton(
     document.getElementById("googleSignIn"),
-    { theme: "outline", size: "large" }
+    { theme:"outline", size:"large" }
   );
   google.accounts.id.prompt();
 };
 
-// Redirect if already logged in
-if(localStorage.getItem('isLoggedIn') === 'true'){
-  window.location.href = "index.html";
-}
+// ---------------- REDIRECT IF ALREADY LOGGED IN ----------------
+document.addEventListener('DOMContentLoaded',()=>{
+  if(localStorage.getItem('isLoggedIn')==='true'){
+    window.location.href="index.html";
+  }
+});
+
+ 
