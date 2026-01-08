@@ -179,3 +179,26 @@ passwordForm.onsubmit = (e)=>{
   showNotification("Password changed successfully!");
   passwordForm.reset();
 };
+// ---------------- PROFILE EDIT ----------------
+const editBtn = document.getElementById('editProfileBtn');
+const editForm = document.getElementById('editProfileForm');
+const saveBtn = document.getElementById('saveProfileBtn');
+
+editBtn.onclick = ()=> editForm.classList.toggle('hidden');
+
+saveBtn.onclick = ()=>{
+  const fName = document.getElementById('editFirstName').value;
+  const lName = document.getElementById('editLastName').value;
+  const phone = document.getElementById('editPhone').value;
+  const country = document.getElementById('editCountry').value;
+  const file = document.getElementById('editPhoto').files[0];
+  if(fName) currentUser.firstName = fName;
+  if(lName) currentUser.lastName = lName;
+  if(phone) currentUser.phone = phone;
+  if(country) currentUser.country = country;
+  if(file) currentUser.photo = URL.createObjectURL(file);
+  localStorage.setItem('currentUser',JSON.stringify(currentUser));
+  showNotification("Profile updated!");
+  location.reload(); // refresh profile info
+};
+
