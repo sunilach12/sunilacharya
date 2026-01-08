@@ -1,14 +1,13 @@
-let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
-// Check login
-function checkLogin(){ 
-  if(!currentUser){ window.location.href="login.html"; return false; } 
-  return true; 
-}
-
-// Logout
-function logout(){
-  localStorage.removeItem("currentUser");
-  showToast("You have logged out!");
-  setTimeout(()=>window.location.href="login.html",1200);
-}
+let currentUser = {
+  username: "Sunil",
+  firstName: "Sunil",
+  lastName: "Acharya",
+  email: "sunil@example.com",
+  phone: "977XXXXXXXXX",
+  country: "Nepal",
+  photo: "assets/defaultavatar.png",
+  blogs: [],
+  music: [],
+  videos: []
+};
+localStorage.setItem("currentUser", JSON.stringify(currentUser));
