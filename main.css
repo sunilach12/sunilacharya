@@ -17,3 +17,14 @@
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+.home-video {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.home-video video {
+  width: 90%;
+  max-width: 900px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
