@@ -68,16 +68,29 @@
   </section>
 
   <!-- PROFILE -->
-  <section id="profileSection" class="section hidden">
-    <h2>Your Profile</h2>
-    <img id="profilePic" src="assets/defaultavatar.png" alt="Profile Picture" class="profile-pic">
-    <p><strong>Name:</strong> <span id="profileName"></span></p>
-    <p><strong>Username:</strong> <span id="profileUsername"></span></p>
-    <p><strong>Email:</strong> <span id="profileEmail"></span></p>
-    <p><strong>Phone:</strong> <span id="profilePhone"></span></p>
-    <p><strong>Age:</strong> <span id="profileAge"></span></p>
-    <p><strong>Country:</strong> <span id="profileCountry"></span></p>
-  </section>
+ <!-- Add in PROFILE section -->
+<section id="profileSection" class="section hidden">
+  <h2>Your Profile</h2>
+  <img id="profilePic" src="assets/defaultavatar.png" alt="Profile Picture" class="profile-pic">
+  <button id="editProfileBtn">Edit Profile</button>
+  <div id="editProfileForm" class="hidden">
+    <input type="text" id="editFirstName" placeholder="First Name">
+    <input type="text" id="editLastName" placeholder="Last Name">
+    <input type="tel" id="editPhone" placeholder="Phone Number">
+    <select id="editCountry">
+      <option value="Nepal">🇳🇵 Nepal</option>
+      <option value="USA">🇺🇸 USA</option>
+      <option value="India">🇮🇳 India</option>
+      <option value="UK">🇬🇧 UK</option>
+    </select>
+    <input type="file" id="editPhoto">
+    <button id="saveProfileBtn">Save</button>
+  </div>
+
+  <h3>Recent Activity</h3>
+  <div id="recentActivity"></div>
+</section>
+
 
   <!-- SETTINGS -->
   <section id="settingsSection" class="section hidden">
