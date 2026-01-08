@@ -1,52 +1,16 @@
-/* RESET */
-* {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif;}
-body{background:#121212; color:white; overflow-x:hidden;}
-.hidden{display:none;}
-section{padding:80px 20px 20px 20px; max-width:900px; margin:0 auto;}
-h1,h2{margin-bottom:20px;}
-
-/* NAVBAR */
-.navbar{
-  position:fixed; top:0; width:100%; background:#1f1f1f; display:flex; justify-content:space-between; align-items:center;
-  padding:10px 20px; z-index:1000; border-bottom:1px solid #333;
-}
-.navbar .logo{font-size:22px; font-weight:bold; color:#1DB954;}
-.navbar .nav-items span{
-  margin:0 10px; cursor:pointer; transition:0.3s; padding:5px 10px; border-radius:5px;
-}
-.navbar .nav-items span:hover{background:#333;}
-.logout-btn{cursor:pointer; background:#1DB954; padding:5px 12px; border-radius:5px; transition:0.3s;}
-.logout-btn:hover{background:#17a44a;}
-
-/* PROFILE PIC */
-.profile-pic{width:120px; height:120px; border-radius:50%; margin-bottom:10px;}
-
-/* FORMS */
-form input, form textarea{width:100%; padding:10px; margin:5px 0 15px 0; border-radius:6px; border:none;}
-form button{padding:10px 15px; border:none; border-radius:6px; background:#1DB954; color:white; cursor:pointer; transition:0.3s;}
-form button:hover{background:#17a44a;}
-
-/* BLOG/MUSIC/VIDEO CARDS */
-.blog-card, .music-card, .video-card{
-  background:#222; margin-bottom:15px; padding:15px; border-radius:8px; animation:fadeInCard 0.5s ease;
-}
-.card-actions{margin-top:10px;}
-.card-actions button{margin-right:10px; padding:5px 10px; border:none; border-radius:5px; cursor:pointer;}
-.card-actions button.like{background:#1DB954; color:white;}
-.card-actions button.comment{background:#555; color:white;}
-
-/* NOTIFICATION */
-.notification{position:fixed; top:20px; right:20px; background:#1DB954; padding:15px 20px; border-radius:8px; box-shadow:0 5px 10px rgba(0,0,0,0.3); opacity:0; transition:0.5s; z-index:9999;}
-.notification.show{opacity:1;}
-
-/* ANIMATION */
-@keyframes fadeInCard{
-  0%{opacity:0; transform:translateY(20px);}
-  100%{opacity:1; transform:translateY(0);}
-}
-
-/* RESPONSIVE */
-@media(max-width:600px){
-  .navbar .nav-items{display:none;}
-  section{padding:100px 10px;}
-}
+body { font-family: Arial; margin:0; padding:0; background:#f0f2f5; }
+.navbar { display:flex; justify-content:space-between; align-items:center; padding:10px 20px; background:#4267B2; color:white; position:fixed; width:100%; top:0; z-index:1000;}
+.nav-items span { margin:0 10px; cursor:pointer; }
+.logout-btn { cursor:pointer; background:#f44336; padding:5px 10px; border-radius:5px; }
+.main-content { padding:80px 20px; }
+.section.hidden { display:none; }
+.modal { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.3); z-index:2000; }
+.modal.hidden { display:none; }
+.notification { position:fixed; top:10px; right:10px; background:#1DB954; color:white; padding:10px 20px; border-radius:10px; display:none; animation:fadeInOut 2s; }
+.notification.show { display:block; }
+@keyframes fadeInOut { 0%{opacity:0}10%{opacity:1}90%{opacity:1}100%{opacity:0} }
+.blog-card, .music-card, .video-card { background:white; padding:15px; margin:10px 0; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+.blog-author { display:flex; align-items:center; }
+.author-photo { width:40px; height:40px; border-radius:50%; margin-right:10px; }
+.profile-pic { width:80px; height:80px; border-radius:50%; }
+.site-footer { text-align:center; padding:20px; background:#333; color:white; position:relative; bottom:0; width:100%; }
