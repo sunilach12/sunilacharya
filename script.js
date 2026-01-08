@@ -1,7 +1,5 @@
 // ---------------- LOGIN CHECK ----------------
-if(localStorage.getItem('isLoggedIn')!=='true'){
-  window.location.href="login.html";
-}
+if(localStorage.getItem('isLoggedIn')!=='true'){window.location.href="login.html";}
 
 // ---------------- ELEMENTS ----------------
 const menuBtn=document.getElementById('menuBtn');
@@ -15,13 +13,12 @@ const musicLibrarySection=document.getElementById('musicLibrarySection');
 const blogSection=document.getElementById('blogSection');
 const profileSection=document.getElementById('profileSection');
 const usernameDisplay=document.getElementById('usernameDisplay');
-const logoutBtn=document.getElementById('logoutBtn');
 const darkModeBtn=document.getElementById('darkModeBtn');
 const notification=document.getElementById('notification');
+const profileLogoutBtn=document.getElementById('profileLogoutBtn');
 
-// ---------------- CURRENT USER ----------------
 let currentUser=JSON.parse(localStorage.getItem('currentUser'));
-usernameDisplay.textContent="Hello, "+currentUser.username;
+usernameDisplay.textContent="Hello, "+(currentUser.username || currentUser.email);
 
 // ---------------- MENU ----------------
 menuBtn.addEventListener('click',()=>sideMenu.classList.toggle('active'));
@@ -30,59 +27,43 @@ function hideAllSections(){
   musicLibrarySection.classList.add('hidden');
   blogSection.classList.add('hidden');
   profileSection.classList.add('hidden');
+  sideMenu.classList.remove('active'); // auto hide
 }
 homeBtn.addEventListener('click',()=>{hideAllSections();homeSection.classList.remove('hidden');});
 musicBtn.addEventListener('click',()=>{hideAllSections();musicLibrarySection.classList.remove('hidden');});
 blogBtn.addEventListener('click',()=>{hideAllSections();blogSection.classList.remove('hidden');renderBlogs();});
 profileBtn.addEventListener('click',()=>{hideAllSections();profileSection.classList.remove('hidden');renderProfile();});
 
-// ---------------- LOGOUT ----------------
-logoutBtn.addEventListener('click',()=>{
+// ---------------- PROFILE ----------------
+const profileUsername=document.getElementById('profileUsername');
+const profileEmail=document.getElementById('profileEmail');
+const profilePhone=document.getElementById('profilePhone');
+const profileCountry=document.getElementById('profileCountry');
+const profileFlag=document.getElementById('profileFlag');
+const profilePhoto=document.getElementById('profilePhoto');
+const profilePhotoInput=document.getElementById('profilePhotoInput');
+
+function renderProfile(){
+  profileUsername.textContent=currentUser.username || currentUser.email;
+  profileEmail.textContent=currentUser.email;
+  profilePhone.textContent=currentUser.phone || 'Not added';
+  profileCountry.textContent=currentUser.country || 'Unknown';
+  profileFlag.src=currentUser.flag || '';
+  profilePhoto.src=currentUser.photo || 'defaultavatar.png';
+}
+profilePhotoInput.addEventListener('change',function(){
+  const reader=new FileReader();
+  reader.onload=(e)=>{currentUser.photo=e.target.result;profilePhoto.src=e.target.result;saveUserData();}
+  reader.readAsDataURL(this.files[0]);
+});
+
+// Logout in profile
+profileLogoutBtn.addEventListener('click',()=>{
   localStorage.setItem('isLoggedIn','false');
   localStorage.removeItem('currentUser');
   showNotification("You have logged out!");
   setTimeout(()=>{window.location.href="login.html";},1500);
 });
-
-// ---------------- DARK MODE ----------------
-darkModeBtn.addEventListener('click',()=>{
-  document.body.classList.toggle('dark-mode');
-});
-
-// ---------------- MUSIC PLAYER ----------------
-const overlay=document.getElementById('musicPlayerOverlay');
-const playPauseBtn=document.getElementById('playPauseBtn');
-const nextBtn=document.getElementById('nextBtn');
-const prevBtn=document.getElementById('prevBtn');
-const shuffleBtn=document.getElementById('shuffleBtn');
-const audio=new Audio();
-const songs=Array.from(document.querySelectorAll('.song-card'));
-const progressBar=document.getElementById('progressBar');
-const currentTimeEl=document.getElementById('currentTime');
-const durationEl=document.getElementById('duration');
-let currentIndex=0,shuffleMode=false;
-
-function playSong(index){
-  const song=songs[index];
-  audio.src=song.dataset.url;
-  audio.play();
-  overlay.classList.remove('hidden');
-  document.getElementById('playerTitle').innerText=song.dataset.title;
-  document.getElementById('playerArtist').innerText=song.dataset.artist;
-  document.getElementById('playerImg').src=song.dataset.img;
-  document.getElementById('downloadBtn').href=song.dataset.url;
-  document.getElementById('downloadBtn').setAttribute('download',`${song.dataset.title}.mp3`);
-  playPauseBtn.innerText="⏸";currentIndex=index;
-}
-songs.forEach((s,i)=>s.addEventListener('click',()=>playSong(i)));
-playPauseBtn.addEventListener('click',()=>{if(audio.paused){audio.play();playPauseBtn.innerText="⏸";}else{audio.pause();playPauseBtn.innerText="▶";}});
-nextBtn.addEventListener('click',()=>{if(shuffleMode) currentIndex=Math.floor(Math.random()*songs.length); else currentIndex=(currentIndex+1)%songs.length; playSong(currentIndex);});
-prevBtn.addEventListener('click',()=>{if(shuffleMode) currentIndex=Math.floor(Math.random()*songs.length); else currentIndex=(currentIndex-1+songs.length)%songs.length; playSong(currentIndex);});
-shuffleBtn.addEventListener('click',()=>shuffleMode=!shuffleMode);
-document.getElementById('closePlayer').addEventListener('click',()=>{overlay.classList.add('hidden');audio.pause();});
-audio.addEventListener('timeupdate',()=>{const p=(audio.currentTime/audio.duration)*100;progressBar.value=p||0;currentTimeEl.innerText=formatTime(audio.currentTime);durationEl.innerText=formatTime(audio.duration||0);});
-progressBar.addEventListener('input',()=>{audio.currentTime=(progressBar.value/100)*audio.duration;});
-function formatTime(t){const m=Math.floor(t/60)||0,s=Math.floor(t%60)||0;return `${m}:${s<10?'0':''}${s}`;}
 
 // ---------------- NOTIFICATION ----------------
 function showNotification(msg){
@@ -91,71 +72,59 @@ function showNotification(msg){
   setTimeout(()=>notification.classList.remove('show'),2000);
 }
 
-// ---------------- PROFILE ----------------
-const profileUsername=document.getElementById('profileUsername');
-const profileEmail=document.getElementById('profileEmail');
-const profilePhoto=document.getElementById('profilePhoto');
-const profilePhotoInput=document.getElementById('profilePhotoInput');
-
-function renderProfile(){
-  profileUsername.textContent=currentUser.username;
-  profileEmail.textContent=currentUser.email;
-  profilePhoto.src=currentUser.photo||'defaultavatar.png';
-}
-profilePhotoInput.addEventListener('change',function(){
-  const reader=new FileReader();
-  reader.onload=(e)=>{currentUser.photo=e.target.result;profilePhoto.src=e.target.result;saveUserData();}
-  reader.readAsDataURL(this.files[0]);
-});
+// ---------------- DARK MODE ----------------
+darkModeBtn.addEventListener('click',()=>{document.body.classList.toggle('dark-mode');});
 
 // ---------------- BLOG ----------------
 const blogForm=document.getElementById('blogForm');
 const blogPosts=document.getElementById('blogPosts');
+const postBlogBtn=document.getElementById('postBlogBtn');
+const blogTitle=document.getElementById('blogTitle');
+const blogContent=document.getElementById('blogContent');
+const blogImage=document.getElementById('blogImage');
 
-blogForm.addEventListener('submit',function(e){
+postBlogBtn.addEventListener('click',(e)=>{
   e.preventDefault();
-  const title=document.getElementById('blogTitle').value;
-  const content=document.getElementById('blogContent').value;
-  const file=document.getElementById('blogImage').files[0];
   if(!currentUser.blogs) currentUser.blogs=[];
+  const file=blogImage.files[0];
   if(file){
     const reader=new FileReader();
     reader.onload=(ev)=>{
-      currentUser.blogs.push({title,content,image:ev.target.result,locked:false});
-      saveUserData();renderBlogs();blogForm.reset();
-      showNotification("Blog posted!");
+      currentUser.blogs.push({title:blogTitle.value,content:blogContent.value,image:ev.target.result,locked:false});
+      saveUserData();renderBlogs();blogForm.reset();showNotification("Blog posted!");
     }
     reader.readAsDataURL(file);
   }else{
-    currentUser.blogs.push({title,content,image:'',locked:false});
-    saveUserData();renderBlogs();blogForm.reset();
-    showNotification("Blog posted!");
+    currentUser.blogs.push({title:blogTitle.value,content:blogContent.value,image:'',locked:false});
+    saveUserData();renderBlogs();blogForm.reset();showNotification("Blog posted!");
   }
 });
 
 function renderBlogs(){
   blogPosts.innerHTML='';
-  let users=JSON.parse(localStorage.getItem('users'))||[];
-  users.forEach(u=>{
-    if(u.blogs) u.blogs.forEach((b,i)=>{
-      if(!b.locked || u.username===currentUser.username){
-        const div=document.createElement('div');
-        div.className='blog-card';
-        div.innerHTML=`<h3>${b.title}</h3><p>${b.content}</p>${b.image?'<img src="'+b.image+'">':''}`;
-        if(u.username===currentUser.username){
-          const lockBtn=document.createElement('button');
-          lockBtn.className='lock-btn';
-          lockBtn.innerText=b.locked?'Unlock':'Lock';
-          lockBtn.onclick=()=>{b.locked=!b.locked;saveUserData();renderBlogs();}
-          div.appendChild(lockBtn);
+  const users=JSON.parse(localStorage.getItem('users'))||[];
+  users.forEach(user=>{
+    if(user.blogs){
+      user.blogs.forEach((b,i)=>{
+        if(!b.locked || user.username===currentUser.username){
+          const card=document.createElement('div');
+          card.className='blog-card';
+          card.innerHTML=`<h3>${b.title}</h3><p>${b.content}</p>${b.image?'<img src="'+b.image+'">':''}`;
+          if(user.username===currentUser.username){
+            const lockBtn=document.createElement('button');
+            lockBtn.className='lock-btn';
+            lockBtn.innerText=b.locked?'Unlock':'Lock';
+            lockBtn.onclick=()=>{b.locked=!b.locked;saveUserData();renderBlogs();}
+            card.appendChild(lockBtn);
+          }
+          blogPosts.appendChild(card);
         }
-        blogPosts.appendChild(div);
-      }
-    });
+      });
+    }
   });
 }
 
-// ---------------- SAVE USER DATA ----------------
+// ---------------- SAVE USER ----------------
 function saveUserData(){
   let users=JSON.parse(localStorage.getItem('users'))||[];
   users=users.map(u=>u.username===currentUser.username?currentUser:u);
