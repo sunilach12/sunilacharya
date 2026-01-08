@@ -3,112 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sunil Acharya App</title>
+<title>Dashboard - Sunil Acharya</title>
 <link rel="stylesheet" href="style.css">
-<script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script> <!-- for icons -->
 </head>
 <body>
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <div class="nav-left">
-    <button id="menuBtn">☰</button>
-    <span id="usernameDisplay"></span>
+  <div class="logo">🌟 SunilAcharya3</div>
+  <div class="nav-items">
+    <span id="homeBtn">Home</span>
+    <span id="blogBtn">Blog</span>
+    <span id="musicBtn">Music</span>
+    <span id="videoBtn">Videos</span>
+    <span id="profileBtn">Profile</span>
+    <span id="settingsBtn">Settings</span>
   </div>
-  <div class="nav-right">
-    <input type="text" id="searchInput" placeholder="Search songs...">
-    <button id="darkModeBtn">🌙</button>
-  </div>
+  <div class="logout-btn" id="logoutBtn">Logout</div>
 </nav>
 
-<!-- SIDE MENU -->
-<div id="sideMenu" class="side-menu">
-  <ul>
-    <li id="homeBtn">🏠 Home</li>
-    <li id="musicBtn">🎵 Music Library</li>
-    <li id="blogBtn">📝 Blog</li>
-    <li id="profileBtn">👤 Profile</li>
-  </ul>
-</div>
-
 <!-- MAIN CONTENT -->
-<div id="mainContent" class="main-content">
-
+<div class="main-content">
+  
   <!-- HOME -->
-  <div id="homeSection" class="section">
-    <h1>Welcome!</h1>
-    <p>Check these resources for students:</p>
-    <ul>
-      <li><a href="https://www.khanacademy.org" target="_blank">Khan Academy</a></li>
-      <li><a href="https://www.coursera.org" target="_blank">Coursera</a></li>
-      <li><a href="https://www.edx.org" target="_blank">edX</a></li>
-    </ul>
-    <h2>Featured Video</h2>
-    <video width="100%" controls>
-      <source src="longvideo.mp4" type="video/mp4">
-      Your browser does not support HTML video.
+  <section id="homeSection" class="section">
+    <h1>Welcome, <span id="userDisplayName"></span>!</h1>
+    <p>Explore blogs, music, and videos shared by the community.</p>
+    <video controls autoplay muted loop width="100%">
+      <source src="assets/homeVideo.mp4" type="video/mp4">
     </video>
-  </div>
-
-  <!-- MUSIC LIBRARY -->
-  <div id="musicLibrarySection" class="section hidden">
-    <h2>Music Library</h2>
-    <div id="songsContainer" class="music-cards">
-      <!-- Songs injected via JS -->
-    </div>
-  </div>
+  </section>
 
   <!-- BLOG -->
-  <div id="blogSection" class="section hidden">
-    <h2>Create Your Blog</h2>
-    <div class="blog-form">
-      <input type="text" id="blogTitle" placeholder="Blog Title" class="blog-input" required>
-      <textarea id="blogContent" placeholder="Write your blog..." class="blog-input" required></textarea>
-      <label for="blogImage" class="custom-file-upload"><i class="fas fa-upload"></i> Upload Image</label>
-      <input type="file" id="blogImage" accept="image/*">
-      <button id="postBlogBtn">Post Blog</button>
-    </div>
-    <div id="blogPosts" class="blog-cards-container"></div>
-  </div>
+  <section id="blogSection" class="section hidden">
+    <h2>Blogs</h2>
+    <form id="blogForm">
+      <input type="text" id="blogTitle" placeholder="Blog Title" required>
+      <textarea id="blogContent" placeholder="Write your blog..." required></textarea>
+      <button type="submit">Post Blog</button>
+    </form>
+    <div id="blogsContainer"></div>
+  </section>
+
+  <!-- MUSIC -->
+  <section id="musicSection" class="section hidden">
+    <h2>Music Library</h2>
+    <form id="musicForm">
+      <input type="text" id="musicTitle" placeholder="Song Title" required>
+      <input type="file" id="musicFile" accept="audio/*" required>
+      <button type="submit">Upload Music</button>
+    </form>
+    <div id="musicContainer"></div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section id="videoSection" class="section hidden">
+    <h2>Videos</h2>
+    <form id="videoForm">
+      <input type="text" id="videoTitle" placeholder="Video Title" required>
+      <input type="file" id="videoFile" accept="video/*" required>
+      <button type="submit">Upload Video</button>
+    </form>
+    <div id="videoContainer"></div>
+  </section>
 
   <!-- PROFILE -->
-  <div id="profileSection" class="section hidden profile-theme">
-    <h2>Profile</h2>
-    <img id="profilePhoto" src="" alt="Profile Photo" width="150">
-    <input type="file" id="profilePhotoInput">
-    <p><strong>Name:</strong> <span id="profileUsername"></span></p>
+  <section id="profileSection" class="section hidden">
+    <h2>Your Profile</h2>
+    <img id="profilePic" src="assets/defaultavatar.png" alt="Profile Picture" class="profile-pic">
+    <p><strong>Name:</strong> <span id="profileName"></span></p>
+    <p><strong>Username:</strong> <span id="profileUsername"></span></p>
     <p><strong>Email:</strong> <span id="profileEmail"></span></p>
     <p><strong>Phone:</strong> <span id="profilePhone"></span></p>
-    <p><strong>Country:</strong> <span id="profileCountry"></span> <img id="profileFlag" src="" width="25"></p>
-    <button id="profileLogoutBtn">Logout</button>
-  </div>
+    <p><strong>Age:</strong> <span id="profileAge"></span></p>
+    <p><strong>Country:</strong> <span id="profileCountry"></span></p>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="settingsSection" class="section hidden">
+    <h2>Settings</h2>
+    <form id="passwordForm">
+      <input type="password" id="currentPass" placeholder="Current Password" required>
+      <input type="password" id="newPass" placeholder="New Password" required>
+      <input type="password" id="confirmPass" placeholder="Confirm New Password" required>
+      <button type="submit">Change Password</button>
+    </form>
+  </section>
 
 </div>
 
-<!-- MUSIC PLAYER -->
-<div id="musicPlayerOverlay" class="player-overlay hidden">
-  <button id="closePlayer">✕</button>
-  <div class="player-body">
-    <img src="" id="playerImg" alt="Album Art">
-    <h2 id="playerTitle">Song Title</h2>
-    <p id="playerArtist">Artist Name</p>
-    <div class="player-controls">
-      <button id="prevBtn">⏮</button>
-      <button id="playPauseBtn">▶</button>
-      <button id="nextBtn">⏭</button>
-      <button id="shuffleBtn">🔀</button>
-      <a id="downloadBtn" href="#" class="download-link">⬇ Download</a>
-    </div>
-    <div class="progress-container">
-      <span id="currentTime">0:00</span>
-      <input type="range" id="progressBar" value="0" min="0" max="100">
-      <span id="duration">0:00</span>
-    </div>
-  </div>
-</div>
-
-<!-- NOTIFICATION -->
-<div id="notification" class="notification hidden"></div>
+<div id="notification" class="notification"></div>
 
 <script src="script.js"></script>
 </body>
