@@ -70,3 +70,15 @@ video { border-radius:12px; box-shadow:0 6px 12px rgba(0,0,0,0.3); margin-top:15
 #profileOnboard input, #profileOnboard select { width:100%; margin:10px 0; padding:10px; border-radius:8px; border:1px solid #ccc; }
 #profileOnboard button { background:#1DB954; color:white; border:none; padding:10px 15px; border-radius:8px; cursor:pointer; transition:0.3s; }
 #profileOnboard button:hover { background:#17a44c; }
+
+.blog-card {
+  background:white; padding:15px; margin:10px 0;
+  border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1);
+  animation:fadeInUp 0.6s ease;
+}
+.blog-card h3 { color:#1b1f38; margin-bottom:8px; }
+.blog-card p { color:#555; margin-bottom:8px; }
+.blog-card small { color:#999; display:block; margin-bottom:8px; }
+.blog-card .deleteBtn { background:#FF4B5C; color:white; border:none; padding:5px 10px; border-radius:6px; cursor:pointer; }
+.blog-card .deleteBtn:hover { background:#FF6F7B; }
+
