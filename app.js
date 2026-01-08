@@ -112,7 +112,7 @@ let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 if(!currentUser){ window.location.href="login.html"; }
 else{ 
   userDisplayName.textContent=currentUser.firstName||currentUser.username; 
-  document.getElementById("profilePic").src=currentUser.photo||"assets/defaultavatar.png";
+  document.getElementById("profilePic").src=currentUser.photo||"user.png";
   document.getElementById("profileName").textContent=currentUser.firstName+" "+(currentUser.lastName||"");
   document.getElementById("profileEmail").textContent=currentUser.email||"";
   document.getElementById("profilePhone").textContent=currentUser.phone||"";
