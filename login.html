@@ -4,61 +4,98 @@
   <meta charset="UTF-8" />
   <title>Themer - Login</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin-top: 60px; }
-    .card { max-width: 360px; margin: 0 auto; padding: 24px; border: 1px solid #eee; border-radius: 12px; }
-    .brand { font-weight: 700; margin-bottom: 16px; }
-    .info { color: #666; font-size: 14px; margin-top: 12px; }
+    body { font-family: Arial, sans-serif; background: #f9f9f9; text-align: center; margin-top: 60px; }
+    .card { max-width: 400px; margin: auto; padding: 24px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px #ccc; }
+    input, button { width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
+    .link { font-size: 14px; color: blue; cursor: pointer; margin-top: 8px; display: block; }
+    #google-btn { margin-top: 12px; }
   </style>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <div class="card">
-    <div class="brand">Themer Login</div>
+  <div class="card" id="login-card">
+    <h2>Themer Login</h2>
 
-    <!-- Google Identity configuration -->
-    <div id="g_id_onload"
-         data-client_id="16883781766-5mp4j8t5ancqj9r4j4l9quos4io5baqk.apps.googleusercontent.com"
-         data-auto_prompt="false">
-    </div>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
 
-    <!-- Sign-in button container -->
-    <div class="g_id_signin"
-         data-type="standard"
-         data-shape="rectangular"
-         data-theme="outline"
-         data-text="sign_in_with"
-         data-size="large">
-    </div>
+    <span class="link" onclick="showSignup()">Don't have an account? Sign up</span>
+    <span class="link" onclick="forgotPassword()">Forgot password?</span>
 
-    <div class="info">Use your Google account to continue.</div>
+    <div id="google-btn"></div>
+  </div>
+
+  <div class="card" id="signup-card" style="display:none;">
+    <h2>Sign Up</h2>
+    <input type="text" id="newUsername" placeholder="Choose a username" />
+    <input type="password" id="newPassword" placeholder="Choose a password" />
+    <button onclick="signup()">Create Account</button>
+    <span class="link" onclick="showLogin()">Already have an account? Login</span>
   </div>
 
   <script>
+    function showSignup() {
+      document.getElementById('login-card').style.display = 'none';
+      document.getElementById('signup-card').style.display = 'block';
+    }
+
+    function showLogin() {
+      document.getElementById('signup-card').style.display = 'none';
+      document.getElementById('login-card').style.display = 'block';
+    }
+
+    function signup() {
+      const user = document.getElementById('newUsername').value;
+      const pass = document.getElementById('newPassword').value;
+      if (user && pass) {
+        localStorage.setItem('user', JSON.stringify({ username: user, password: pass }));
+        alert('Signup successful!');
+        window.location.href = 'main.html';
+      }
+    }
+
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      const stored = JSON.parse(localStorage.getItem('user') || '{}');
+      if (user === stored.username && pass === stored.password) {
+        window.location.href = 'main.html';
+      } else {
+        alert('Invalid credentials');
+      }
+    }
+
+    function forgotPassword() {
+      alert('Please contact support or reset via email (feature coming soon)');
+    }
+
+    // Google Login
     function handleCredentialResponse(response) {
-      // Decode JWT payload
-      const payload = JSON.parse(atob(response.credential.split('.')[1]));
-      // Save user info (basic demo; replace with secure backend later)
+      const data = JSON.parse(atob(response.credential.split('.')[1]));
       localStorage.setItem('user', JSON.stringify({
-        name: payload.name,
-        email: payload.email,
-        picture: payload.picture,
-        sub: payload.sub
+        username: data.name,
+        email: data.email,
+        picture: data.picture
       }));
-      // Redirect to homepage
-      window.location.href = 'index.html';
+      window.location.href = 'main.html';
     }
 
     window.onload = function () {
+      const user = localStorage.getItem('user');
+      if (user) {
+        window.location.href = 'main.html';
+        return;
+      }
+
       google.accounts.id.initialize({
-        client_id: '16883781766-5mp4j8t5ancqj9r4j4l9quos4io5baqk.apps.googleusercontent.com',
+        client_id: "16883781766-5mp4j8t5ancqj9r4j4l9quos4io5baqk.apps.googleusercontent.com",
         callback: handleCredentialResponse
       });
       google.accounts.id.renderButton(
-        document.querySelector('.g_id_signin'),
-        { theme: 'outline', size: 'large' }
+        document.getElementById("google-btn"),
+        { theme: "outline", size: "large" }
       );
-      // Optional: show One Tap if you want
-      // google.accounts.id.prompt();
     };
   </script>
 </body>
