@@ -1,41 +1,33 @@
-// Signup logic
-document.getElementById("signupForm")?.addEventListener("submit", function(event) {
-  event.preventDefault();
-  const username = document.getElementById("newUsername").value;
-  const password = document.getElementById("newPassword").value;
-  const confirmPassword = document.getElementById("confirmPassword").value;
-
-  if (password !== confirmPassword) {
-    alert("Passwords do not match!");
-    return;
-  }
-
-  localStorage.setItem("user", JSON.stringify({ username, password }));
-  alert("Signup successful! Redirecting to login...");
-  window.location.href = "login.html";
-});
-
-// Login logic
-document.getElementById("loginForm")?.addEventListener("submit", function(event) {
-  event.preventDefault();
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-
-  if (storedUser && storedUser.username === username && storedUser.password === password) {
-    alert("Login successful! Welcome " + username);
-    window.location.href = "index.html"; // redirect to homepage
-  } else {
-    alert("Invalid username or password.");
-  }
-});
-
-// Placeholder social login
-function loginWithGoogle() {
-  alert("Google login integration goes here.");
+// Suggestion Logic
+function fillUser() {
+    document.getElementById('username').value = "music_creator_01!";
 }
 
-function loginWithFacebook() {
-  alert("Facebook login integration goes here.");
-} 
+function fillPass() {
+    document.getElementById('password').value = "Secure#2026";
+}
+
+// Redirect to Main after "Login"
+function validate() {
+    // In a real site, you'd check the database here
+    window.location.href = "main.html";
+}
+
+// Google Login Callback
+function handleCredentialResponse(response) {
+    console.log("Encoded JWT ID token: " + response.credential);
+    window.location.href = "main.html";
+}
+
+// Search Logic
+function searchAction(event) {
+    if (event.key === "Enter") {
+        let query = document.getElementById('mainSearch').value;
+        // Redirect to google search as requested
+        window.open("https://www.google.com/search?q=" + encodeURIComponent(query), "_blank");
+    }
+}
+
+function openSettings() {
+    alert("User Search History: \n1. Guitar Tabs\n2. Portfolio Design\n3. Best Blogs");
+}
