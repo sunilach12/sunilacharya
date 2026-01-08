@@ -9,6 +9,7 @@
     input, button { width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
     .link { font-size: 14px; color: blue; cursor: pointer; margin-top: 8px; display: block; }
     #google-btn { margin-top: 12px; }
+    #passwordSuggestion { font-size: 13px; color: green; margin-top: 6px; }
   </style>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -26,12 +27,11 @@
     <div id="google-btn"></div>
   </div>
 
-  <!-- ✅ Updated Signup Section -->
   <div class="card" id="signup-card" style="display:none;">
     <h2>Sign Up</h2>
     <input type="text" id="newUsername" placeholder="Choose a username" oninput="suggestPassword()" />
     <input type="password" id="newPassword" placeholder="Choose a password" />
-    <div id="passwordSuggestion" style="font-size:13px; color:green; margin-top:6px;"></div>
+    <div id="passwordSuggestion"></div>
     <button onclick="signup()">Create Account</button>
     <span class="link" onclick="showLogin()">Already have an account? Login</span>
   </div>
@@ -47,7 +47,6 @@
       document.getElementById('login-card').style.display = 'block';
     }
 
-    // ✅ Password suggestion based on username
     function suggestPassword() {
       const user = document.getElementById('newUsername').value;
       if (user) {
@@ -60,12 +59,9 @@
       }
     }
 
-    // ✅ Signup with validation
     function signup() {
       const user = document.getElementById('newUsername').value;
       const pass = document.getElementById('newPassword').value;
-
-      // Username must be lowercase + number + symbol
       const usernameRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-z0-9!@#$%^&*]+$/;
 
       if (!usernameRegex.test(user)) {
@@ -95,7 +91,6 @@
       alert('Please contact support or reset via email (feature coming soon)');
     }
 
-    // ✅ Google Login
     function handleCredentialResponse(response) {
       const data = JSON.parse(atob(response.credential.split('.')[1]));
       localStorage.setItem('user', JSON.stringify({
