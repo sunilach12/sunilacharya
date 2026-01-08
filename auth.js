@@ -1,33 +1,14 @@
-function isLoggedIn() {
-  return localStorage.getItem("isLoggedIn") === "true";
+let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+// Check login
+function checkLogin(){ 
+  if(!currentUser){ window.location.href="login.html"; return false; } 
+  return true; 
 }
 
-function getUser() {
-  return JSON.parse(localStorage.getItem("currentUser"));
-}
-
-function logout() {
-  localStorage.removeItem("isLoggedIn");
+// Logout
+function logout(){
   localStorage.removeItem("currentUser");
-  showToast("You have logged out");
-  setTimeout(() => location.href = "login.html", 1200);
+  showToast("You have logged out!");
+  setTimeout(()=>window.location.href="login.html",1200);
 }
-function showToast(message) {
-  const toast = document.createElement("div");
-  toast.className = "toast";
-  toast.innerText = message;
-  document.body.appendChild(toast);
-
-  setTimeout(() => toast.classList.add("show"), 50);
-  setTimeout(() => {
-    toast.classList.remove("show");
-    setTimeout(() => toast.remove(), 300);
-  }, 2500);
-}
-function logout() {
-  localStorage.removeItem("currentUser");
-  localStorage.removeItem("isLoggedIn");
-  showToast("You have logged out");
-  setTimeout(() => location.href = "login.html", 1200);
-}
-
