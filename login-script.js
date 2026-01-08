@@ -17,18 +17,19 @@ function showNotification(msg){
   setTimeout(()=>loginNotification.classList.remove('show'),2000);
 }
 
-// ---------------- GOOGLE LOGIN ----------------
+// GOOGLE LOGIN
 googleLoginBtn.addEventListener('click',()=>{
-  // Simulate Google login
-  const user={username:'GoogleUser',email:'googleuser@example.com',blogs:[],photo:'defaultavatar.png'};
+  const user={username:'GoogleUser',email:'googleuser@example.com',blogs:[],music:[],videos:[],photo:'assets/defaultavatar.png'};
   localStorage.setItem('currentUser',JSON.stringify(user));
-  localStorage.setItem('users',JSON.stringify([user]));
+  let users=JSON.parse(localStorage.getItem('users'))||[];
+  users.push(user);
+  localStorage.setItem('users',JSON.stringify(users));
   localStorage.setItem('isLoggedIn','true');
   showNotification("Logged in with Google!");
-  setTimeout(()=>{window.location.href="index.html";},1500);
+  setTimeout(()=>{window.location.href="info.html";},1500);
 });
 
-// ---------------- LOGIN FORM ----------------
+// LOGIN FORM
 loginForm.addEventListener('submit',(e)=>{
   e.preventDefault();
   const userInput=document.getElementById('loginUser').value;
@@ -39,11 +40,14 @@ loginForm.addEventListener('submit',(e)=>{
     localStorage.setItem('currentUser',JSON.stringify(user));
     localStorage.setItem('isLoggedIn','true');
     showNotification("Login successful!");
-    setTimeout(()=>{window.location.href="index.html";},1500);
-  }else{showNotification("Invalid credentials!");}
+    setTimeout(()=>{
+      if(user.firstName){window.location.href="index.html";}
+      else{window.location.href="info.html";}
+    },1500);
+  } else {showNotification("Invalid credentials!");}
 });
 
-// ---------------- SIGNUP FORM ----------------
+// SIGNUP FORM
 signupForm.addEventListener('submit',(e)=>{
   e.preventDefault();
   const username=document.getElementById('signupUsername').value;
@@ -54,7 +58,7 @@ signupForm.addEventListener('submit',(e)=>{
   if(pass!==confirm){showNotification("Passwords do not match!");return;}
   let users=JSON.parse(localStorage.getItem('users'))||[];
   if(users.find(u=>u.username===username||u.email===email)){showNotification("User already exists!");return;}
-  const newUser={username,email,phone,password:pass,blogs:[],photo:'defaultavatar.png'};
+  const newUser={username,email,phone,password:pass,blogs:[],music:[],videos:[],photo:'assets/defaultavatar.png'};
   users.push(newUser);
   localStorage.setItem('users',JSON.stringify(users));
   showNotification("Account created!");
