@@ -1,66 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login & Signup - Music & Blog App</title>
-  <link rel="stylesheet" href="login.css">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login & Signup - SunilAcharya3</title>
+<link rel="stylesheet" href="login.css">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
-  <div class="login-container">
+<div class="login-container">
 
-    <!-- LOGIN BOX -->
-    <div class="login-box" id="loginBox">
-      <h2>Login</h2>
-      <form id="loginForm">
-        <div class="input-group">
-          <label for="loginInput">Email or Username</label>
-          <input type="text" id="loginInput" placeholder="Enter email or username" required>
-        </div>
-        <div class="input-group">
-          <label for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" placeholder="Enter your password" required>
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      <div id="loginError" class="login-error hidden">Invalid email/username or password!</div>
+  <!-- LOGIN BOX -->
+  <div class="login-box" id="loginBox">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="text" id="loginInput" placeholder="Email or Username" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <div id="loginError" class="login-error hidden">Invalid email/username or password!</div>
 
-      <p style="margin: 15px 0; font-weight: bold;">Or login with Google:</p>
-      <div id="googleSignIn"></div>
+    <p style="margin:15px 0; font-weight:bold;">Or login with Google:</p>
+    <div id="googleSignIn"></div>
 
-      <p>Don't have an account? <span id="showSignup" class="toggle-link">Signup</span></p>
-    </div>
-
-    <!-- SIGNUP BOX -->
-    <div class="login-box hidden" id="signupBox">
-      <h2>Signup</h2>
-      <form id="signupForm">
-        <div class="input-group">
-          <label for="signupUsername">Username (5 chars: lowercase letters, numbers, symbols)</label>
-          <input type="text" id="signupUsername" placeholder="Enter username" required>
-        </div>
-        <div class="input-group">
-          <label for="signupEmail">Email</label>
-          <input type="email" id="signupEmail" placeholder="Enter email" required>
-        </div>
-        <div class="input-group">
-          <label for="signupPassword">Password</label>
-          <input type="password" id="signupPassword" placeholder="Enter password" required>
-        </div>
-        <div class="input-group">
-          <label for="confirmPassword">Confirm Password</label>
-          <input type="password" id="confirmPassword" placeholder="Confirm password" required>
-        </div>
-        <button type="submit">Signup</button>
-      </form>
-      <div id="signupError" class="login-error hidden"></div>
-      <p>Already have an account? <span id="showLogin" class="toggle-link">Login</span></p>
-    </div>
-
+    <p>Don't have an account? <span id="showSignup" class="toggle-link">Signup</span></p>
   </div>
 
-  <script src="login.js"></script>
+  <!-- SIGNUP BOX -->
+  <div class="login-box hidden" id="signupBox">
+    <h2>Signup</h2>
+    <form id="signupForm">
+      <input type="text" id="signupUsername" placeholder="Username (5 chars: lowercase letters, numbers, symbols)" required>
+      <input type="email" id="signupEmail" placeholder="Email" required>
+      <input type="password" id="signupPassword" placeholder="Password" required>
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+      <button type="submit">Signup</button>
+    </form>
+    <div id="signupError" class="login-error hidden"></div>
+    <p>Already have an account? <span id="showLogin" class="toggle-link">Login</span></p>
+  </div>
+
+</div>
+
+<script src="login.js"></script>
 </body>
 </html>
