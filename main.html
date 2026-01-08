@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Themer - Main</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f0f0; text-align: center; margin-top: 60px; }
+    .card { max-width: 400px; margin: auto; padding: 24px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px #ccc; }
+    input, button { width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
+    img { width: 60px; height: 60px; border-radius: 50%; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Welcome to Themer</h2>
+    <div id="profile"></div>
+    <input type="file" id="photo" accept="image/*" />
+    <input type="tel" id="mobile" placeholder="Enter mobile number" />
+    <button onclick="saveProfile()">Save Profile</button>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user.username && !user.email) {
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('profile').innerHTML = `
+      ${user.picture ? `<img src="${user.picture}" alt="Profile" />` : ''}
+      <div><strong>Name:</strong> ${user.username || user.name}</div>
+      ${user.email ? `<div><strong>Email:</strong> ${user.email}</div>` : ''}
+    `;
+
+    function saveProfile() {
+      const mobile = document.getElementById('mobile').value;
+      const photo = document.getElementById('photo').files[0];
+      alert('Profile saved! (Photo and mobile number stored locally)');
+      // You can extend this to upload to backend later
+    }
+  </script>
+</body>
+</html>
