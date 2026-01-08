@@ -70,29 +70,43 @@ function renderBlogs(){
   blogs.forEach((b,i)=>{
     const div = document.createElement('div');
     div.className = 'blog-card';
+    let commentsHTML = '';
+    if(b.comments){
+      b.comments.forEach(c=>{
+        commentsHTML += `<p><strong>${c.user}:</strong> ${c.text}</p>`;
+      });
+    }
     div.innerHTML = `<h3>${b.title}</h3><p>${b.content}</p>
       <div class="card-actions">
         <button class="like">Like (${b.likes||0})</button>
-        <button class="comment">Comment</button>
+      </div>
+      <div class="comments">
+        ${commentsHTML}
+        <input type="text" placeholder="Add comment..." class="commentInput">
+        <button class="addCommentBtn">Comment</button>
       </div>`;
     blogsContainer.appendChild(div);
+
+    // Like button
     div.querySelector('.like').onclick = ()=>{
       b.likes = (b.likes||0)+1;
       localStorage.setItem('currentUser',JSON.stringify(currentUser));
       renderBlogs();
     };
+
+    // Add comment
+    const commentBtn = div.querySelector('.addCommentBtn');
+    const commentInput = div.querySelector('.commentInput');
+    commentBtn.onclick = ()=>{
+      if(!commentInput.value) return;
+      b.comments = b.comments||[];
+      b.comments.push({user: currentUser.firstName||currentUser.username, text: commentInput.value});
+      localStorage.setItem('currentUser',JSON.stringify(currentUser));
+      commentInput.value = '';
+      renderBlogs();
+    };
   });
 }
-blogForm.onsubmit = (e)=>{
-  e.preventDefault();
-  const title = document.getElementById('blogTitle').value;
-  const content = document.getElementById('blogContent').value;
-  blogs.push({title,content,likes:0});
-  currentUser.blogs = blogs;
-  localStorage.setItem('currentUser',JSON.stringify(currentUser));
-  renderBlogs();
-  blogForm.reset();
-};
 renderBlogs();
 
 // ---------------- MUSIC SYSTEM ----------------
@@ -201,4 +215,31 @@ saveBtn.onclick = ()=>{
   showNotification("Profile updated!");
   location.reload(); // refresh profile info
 };
+function renderRecentActivity(){
+  const container = document.getElementById('recentActivity');
+  container.innerHTML = '';
+
+  // Blogs
+  currentUser.blogs?.forEach(b=>{
+    const div = document.createElement('div');
+    div.innerHTML = `<p>📝 Blog: ${b.title} (${b.likes||0} likes)</p>`;
+    container.appendChild(div);
+  });
+
+  // Music
+  currentUser.music?.forEach(m=>{
+    const div = document.createElement('div');
+    div.innerHTML = `<p>🎵 Music: ${m.title} (${m.likes||0} likes)</p>`;
+    container.appendChild(div);
+  });
+
+  // Videos
+  currentUser.videos?.forEach(v=>{
+    const div = document.createElement('div');
+    div.innerHTML = `<p>🎬 Video: ${v.title} (${v.likes||0} likes)</p>`;
+    container.appendChild(div);
+  });
+}
+
+renderRecentActivity();
 
