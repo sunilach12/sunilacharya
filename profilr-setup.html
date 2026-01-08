@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Setup Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="profile-setup.css">
+</head>
+<body>
+
+<div class="setup-card">
+  <h1>Complete Your Profile</h1>
+  <p>Just one step to continue</p>
+
+  <form id="profileForm">
+    <input type="text" id="firstName" placeholder="First Name" required>
+    <input type="text" id="lastName" placeholder="Last Name" required>
+    <input type="number" id="age" placeholder="Age" required>
+    <input type="text" id="country" placeholder="Country" required>
+
+    <label class="photo-label">
+      Upload Profile Photo
+      <input type="file" id="photo" accept="image/*">
+    </label>
+
+    <button type="submit">Continue</button>
+  </form>
+</div>
+
+<script src="profile-setup.js"></script>
+</body>
+</html>
