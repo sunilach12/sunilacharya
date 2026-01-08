@@ -1,23 +1,121 @@
-/* RESET */
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-body, html{height:100%;overflow:hidden;}
-.login-container{display:flex;justify-content:center;align-items:center;height:100vh;position:relative;}
-.background{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(270deg,#4b6cb7,#182848,#1DB954,#f39c12);background-size:800% 800%;animation:gradientBG 15s ease infinite;z-index:1;}
-@keyframes gradientBG{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
-.login-box{position:relative;background:rgba(0,0,0,0.85);padding:40px 30px;border-radius:12px;width:350px;z-index:2;color:white;text-align:center;animation:fadeIn 1s ease forwards;}
-@keyframes fadeIn{0%{opacity:0;transform:translateY(-20px);}100%{opacity:1;transform:translateY(0);}}
-.login-box h1{margin-bottom:20px;}
-.login-box input{width:100%;padding:12px 15px;margin:8px 0;border-radius:8px;border:none;outline:none;font-size:16px;}
-.login-box input:focus{box-shadow:0 0 8px #1DB954;background:#2a2a2a;color:white;}
-.login-box button{width:100%;padding:12px;margin-top:10px;border:none;border-radius:8px;background:#1DB954;color:white;font-size:16px;cursor:pointer;transition:0.3s;}
-.login-box button:hover{background:#17a44a;}
-.google-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:white;color:black;padding:12px;border-radius:8px;font-weight:bold;transition:0.3s;}
-.google-btn:hover{background:#f1f1f1;}
-.google-btn img{width:20px;}
-.separator{margin:15px 0;color:#aaa;}
-.hidden{display:none;}
-.signup-text{margin-top:12px;font-size:14px;color:#ccc;}
-.signup-text span{color:#1DB954;cursor:pointer;}
-.notification{position:fixed;top:20px;right:20px;background:#1DB954;color:white;padding:15px 20px;border-radius:8px;box-shadow:0 5px 10px rgba(0,0,0,0.3);opacity:0;transition:0.5s;z-index:9999;}
-.notification.show{opacity:1;}
-@media(max-width:400px){.login-box{width:90%;padding:30px 20px;}.google-btn img{width:18px;}}
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #1DB954, #121212);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 420px;
+}
+
+.card {
+  background: #181818;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.logo {
+  text-align: center;
+  color: #1DB954;
+}
+
+.subtitle {
+  text-align: center;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: none;
+  background: #222;
+  color: white;
+}
+
+.phone-group {
+  display: flex;
+  gap: 8px;
+}
+
+.phone-group select {
+  width: 35%;
+}
+
+.phone-group input {
+  width: 65%;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.primary {
+  background: #1DB954;
+  color: black;
+}
+
+.google {
+  background: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.google img {
+  width: 18px;
+}
+
+.divider {
+  text-align: center;
+  color: #777;
+  margin: 15px 0;
+}
+
+.switch {
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.switch span {
+  color: #1DB954;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+#notification {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  color: #1DB954;
+}
