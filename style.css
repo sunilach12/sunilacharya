@@ -1,17 +1,94 @@
- body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; }
-
-/* Auth Pages */
-.login-card { 
-    background: white; padding: 2rem; border-radius: 12px; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 350px; 
-    margin: 100px auto; 
+/* GENERAL */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  transition: background 0.3s, color 0.3s;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-.btn { width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-.btn-login { background: #007bff; color: white; }
-.suggestion { font-size: 0.8rem; color: #28a745; cursor: pointer; text-decoration: underline; display: block; }
 
-/* Main Dashboard */
-header { background: #1a1a1a; color: white; padding: 1rem; display: flex; align-items: center; justify-content: space-between; }
-.nav-links a { color: white; margin-right: 15px; text-decoration: none; }
-#mainSearch { width: 300px; padding: 8px; border-radius: 20px; border: none; }
+/* NAVBAR */
+.navbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 20px;
+  background: linear-gradient(90deg, #4b6cb7, #182848);
+  position: fixed; top:0; width:100%; z-index: 1000;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+#searchInput {
+  border-radius: 20px; border:none; padding:6px 15px;
+}
+
+/* MENU BUTTON */
+#menuBtn { font-size:24px; background:none; border:none; color:white; cursor:pointer; }
+
+/* SIDE MENU */
+.side-menu {
+  position: fixed; top:55px; left:-250px; width:240px;
+  background:#222; color:white; height:100%; transition:0.3s; z-index:999;
+  overflow-y:auto;
+}
+.side-menu.active { left:0; }
+.side-menu ul { list-style:none; padding:20px 0; margin:0; }
+.side-menu li { padding:15px 25px; cursor:pointer; border-bottom:1px solid #333; }
+.menu-dropdown { display:none; background:#111; padding:10px 25px; }
+.menu-dropdown.visible { display:block; }
+.setting-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+
+/* MAIN CONTENT */
+.main-content { padding:100px 30px; flex:1; }
+.section.hidden { display:none; }
+
+/* SONG CARDS */
+.song-card { display:flex; align-items:center; padding:10px; cursor:pointer; background:#333; margin-bottom:10px; border-radius:8px; transition:0.3s; }
+.song-card:hover { background:#444; }
+.song-thumb { width:60px; height:60px; border-radius:8px; margin-right:10px; }
+.song-info { color:white; }
+
+/* MUSIC PLAYER OVERLAY */
+.player-overlay {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  background: linear-gradient(to bottom, #2c3e50, #000);
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  z-index:2000; color:white; text-align:center; padding:20px;
+}
+.player-overlay.hidden { display:none; }
+#playerImg { width:300px; height:300px; border-radius:15px; box-shadow:0 20px 40px rgba(0,0,0,0.6); margin-bottom:20px; }
+.player-controls button { margin:5px; padding:10px 20px; border:none; border-radius:50px; cursor:pointer; font-size:18px; }
+#playPauseBtn { background:#1DB954; color:white; }
+#shuffleBtn { background:#555; color:white; }
+#downloadBtn { margin-top:10px; display:inline-block; color:#1DB954; padding:10px 20px; border:1px solid #1DB954; border-radius:20px; text-decoration:none; }
+.progress-container { display:flex; align-items:center; width:80%; max-width:400px; margin-top:15px; color:white; }
+#progressBar { flex:1; margin:0 10px; }
+
+/* FOOTER */
+.footer {
+  background-color: #222;
+  color: white;
+  text-align: center;
+  padding: 20px 10px;
+  border-top: 1px solid #444;
+}
+.footer .social-links { margin: 10px 0; }
+.footer .social-links a {
+  color: #1DB954;
+  text-decoration: none;
+  margin: 0 8px;
+  transition: color 0.3s;
+}
+.footer .social-links a:hover { color: #fff; }
+
+/* DARK MODE */
+body.dark-mode {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+body.dark-mode .side-menu { background-color: #1f1f1f; }
+body.dark-mode .menu-dropdown { background-color: #111; }
+body.dark-mode .song-card { background-color: #333; }
+body.dark-mode .song-card:hover { background-color: #444; }
+body.dark-mode .navbar { background: linear-gradient(90deg, #000000, #333); }
+body.dark-mode .footer { background-color: #111; color: #f1f1f1; }
+body.dark-mode .footer .social-links a:hover { color: #fff; }
