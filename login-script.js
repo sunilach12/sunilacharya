@@ -92,3 +92,8 @@ googleBtn.onclick = () => {
   notify("Logged in with Google!");
   setTimeout(() => window.location.href = "index.html", 1000);
 };
+if (!user.profileCompleted) {
+  window.location.href = "profile-setup.html";
+} else {
+  window.location.href = "index.html";
+}
