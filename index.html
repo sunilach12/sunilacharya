@@ -1,132 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Music & Blog App</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunil Acharya Music & Blog App</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <script>
-if (localStorage.getItem('isLoggedIn') !== 'true') {
-  window.location.href = "login.html";
-}
-</script>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-left">
-      <button id="menuBtn">☰</button>
-    </div>
-    <div class="nav-right">
-      <input type="text" id="searchInput" placeholder="Search songs...">
-    </div>
-  </nav>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-left">
+    <button id="menuBtn">☰</button>
+    <span id="usernameDisplay"></span>
+  </div>
+  <div class="nav-right">
+    <input type="text" id="searchInput" placeholder="Search songs...">
+    <button id="darkModeBtn">🌙</button>
+    <button id="logoutBtn">Logout</button>
+  </div>
+</nav>
 
-  <!-- SIDE MENU -->
-  <div id="sideMenu" class="side-menu">
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <ul>
+    <li id="homeBtn">🏠 Home</li>
+    <li id="musicBtn">🎵 Music Library</li>
+    <li id="blogBtn">📝 Blog</li>
+    <li id="profileBtn">👤 Profile</li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent" class="main-content">
+
+  <!-- HOME -->
+  <div id="homeSection" class="section">
+    <h1>Welcome!</h1>
+    <p>Check these resources for students:</p>
     <ul>
-      <li id="homeBtn">🏠 Home</li>
-      <li id="musicBtn">🎵 Music Library</li>
-      <li id="blogBtn">📝 Blog</li>
-      <li id="settingsBtn">⚙️ Settings</li>
-
-      <!-- SETTINGS DROPDOWN INSIDE MENU -->
-      <div id="settingsDropdown" class="menu-dropdown hidden">
-        <div class="setting-row">
-          <span>Dark Mode</span>
-          <input type="checkbox" id="darkModeToggle">
-        </div>
-        <div class="setting-row">
-          <button id="logoutBtn">Logout</button>
-        </div>
-      </div>
+      <li><a href="https://www.khanacademy.org" target="_blank">Khan Academy</a></li>
+      <li><a href="https://www.coursera.org" target="_blank">Coursera</a></li>
+      <li><a href="https://www.edx.org" target="_blank">edX</a></li>
     </ul>
+    <h2>Featured Video</h2>
+    <video width="100%" controls>
+      <source src="longvideo.mp4" type="video/mp4">
+      Your browser does not support HTML video.
+    </video>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div id="mainContent" class="main-content">
-
-    <!-- HOME -->
-    <div id="homeSection" class="section">
-      <h1>Welcome to Your App</h1>
-      <p>Use the side menu to navigate through your music library, blog, and settings.</p>
-    </div>
-
-    <!-- MUSIC LIBRARY -->
-    <div id="musicLibrarySection" class="section hidden">
-      <h2>Music Library</h2>
-      <div id="songsContainer">
-        <!-- Song Cards -->
-        <div class="song-card" 
-             data-url="song1.mp3" 
-             data-img="https://i.scdn.co/image/ab67616d0000b273c511f16219a322959873e137" 
-             data-title="Blinding Lights" 
-             data-artist="The Weeknd">
-          <img src="https://i.scdn.co/image/ab67616d0000b273c511f16219a322959873e137" class="song-thumb">
-          <div class="song-info">
-            <strong>Blinding Lights</strong><br><small>The Weeknd</small>
-          </div>
-        </div>
-
-        <div class="song-card" 
-             data-url="song2.mp3" 
-             data-img="https://i.scdn.co/image/ab67616d0000b27341e31f6f8d16d63d04d80512" 
-             data-title="Stay" 
-             data-artist="The Kid LAROI">
-          <img src="https://i.scdn.co/image/ab67616d0000b27341e31f6f8d16d63d04d80512" class="song-thumb">
-          <div class="song-info">
-            <strong>Stay</strong><br><small>The Kid LAROI</small>
-          </div>
-        </div>
+  <!-- MUSIC LIBRARY -->
+  <div id="musicLibrarySection" class="section hidden">
+    <h2>Music Library</h2>
+    <div id="songsContainer">
+      <!-- Song Cards -->
+      <div class="song-card" data-url="song1.mp3" data-img="https://i.scdn.co/image/ab67616d0000b273c511f16219a322959873e137" data-title="Blinding Lights" data-artist="The Weeknd">
+        <img src="https://i.scdn.co/image/ab67616d0000b273c511f16219a322959873e137" class="song-thumb">
+        <div class="song-info"><strong>Blinding Lights</strong><br><small>The Weeknd</small></div>
       </div>
-    </div>
-
-    <!-- BLOG -->
-    <div id="blogSection" class="section hidden">
-      <h2>Blog</h2>
-      <article class="blog-post">
-        <h3>My First Blog Post</h3>
-        <p>This is a sample blog post to demonstrate how you can add blog content.</p>
-      </article>
-    </div>
-
-  </div>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>Connect with me:</p>
-    <div class="social-links">
-      <a href="https://www.facebook.com/yourprofile" target="_blank">Facebook</a> |
-      <a href="https://www.linkedin.com/in/yourprofile" target="_blank">LinkedIn</a> |
-      <a href="mailto:your.email@gmail.com">Gmail</a> |
-      <a href="https://wa.me/yourwhatsappnumber" target="_blank">WhatsApp</a>
-    </div>
-    <p>&copy; 2026 Your Name</p>
-  </footer>
-
-  <!-- MUSIC PLAYER OVERLAY -->
-  <div id="musicPlayerOverlay" class="player-overlay hidden">
-    <button id="closePlayer">✕</button>
-    <div class="player-body">
-      <img src="" id="playerImg" alt="Album Art">
-      <h2 id="playerTitle">Song Title</h2>
-      <p id="playerArtist">Artist Name</p>
-      <div class="player-controls">
-        <button id="prevBtn">⏮</button>
-        <button id="playPauseBtn">▶</button>
-        <button id="nextBtn">⏭</button>
-        <button id="shuffleBtn">🔀</button>
-        <a id="downloadBtn" href="#" class="download-link">⬇ Download</a>
-      </div>
-      <div class="progress-container">
-        <span id="currentTime">0:00</span>
-        <input type="range" id="progressBar" value="0" min="0" max="100">
-        <span id="duration">0:00</span>
+      <div class="song-card" data-url="song2.mp3" data-img="https://i.scdn.co/image/ab67616d0000b27341e31f6f8d16d63d04d80512" data-title="Stay" data-artist="The Kid LAROI">
+        <img src="https://i.scdn.co/image/ab67616d0000b27341e31f6f8d16d63d04d80512" class="song-thumb">
+        <div class="song-info"><strong>Stay</strong><br><small>The Kid LAROI</small></div>
       </div>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- BLOG -->
+  <div id="blogSection" class="section hidden">
+    <h2>Blog</h2>
+    <form id="blogForm">
+      <input type="text" id="blogTitle" placeholder="Blog Title" required><br>
+      <textarea id="blogContent" placeholder="Write your blog..." required></textarea><br>
+      <input type="file" id="blogImage"><br>
+      <button type="submit">Post Blog</button>
+    </form>
+    <div id="blogPosts"></div>
+  </div>
+
+  <!-- PROFILE -->
+  <div id="profileSection" class="section hidden">
+    <h2>Profile</h2>
+    <img id="profilePhoto" src="" alt="Profile Photo" width="150"><br>
+    <input type="file" id="profilePhotoInput"><br>
+    <p><strong>Username:</strong> <span id="profileUsername"></span></p>
+    <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+  </div>
+
+</div>
+
+<!-- MUSIC PLAYER OVERLAY -->
+<div id="musicPlayerOverlay" class="player-overlay hidden">
+  <button id="closePlayer">✕</button>
+  <div class="player-body">
+    <img src="" id="playerImg" alt="Album Art">
+    <h2 id="playerTitle">Song Title</h2>
+    <p id="playerArtist">Artist Name</p>
+    <div class="player-controls">
+      <button id="prevBtn">⏮</button>
+      <button id="playPauseBtn">▶</button>
+      <button id="nextBtn">⏭</button>
+      <button id="shuffleBtn">🔀</button>
+      <a id="downloadBtn" href="#" class="download-link">⬇ Download</a>
+    </div>
+    <div class="progress-container">
+      <span id="currentTime">0:00</span>
+      <input type="range" id="progressBar" value="0" min="0" max="100">
+      <span id="duration">0:00</span>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATION -->
+<div id="notification" class="notification hidden"></div>
+
+<script src="script.js"></script>
 </body>
 </html>
