@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -26,10 +26,12 @@
     <div id="google-btn"></div>
   </div>
 
+  <!-- ✅ Updated Signup Section -->
   <div class="card" id="signup-card" style="display:none;">
     <h2>Sign Up</h2>
-    <input type="text" id="newUsername" placeholder="Choose a username" />
+    <input type="text" id="newUsername" placeholder="Choose a username" oninput="suggestPassword()" />
     <input type="password" id="newPassword" placeholder="Choose a password" />
+    <div id="passwordSuggestion" style="font-size:13px; color:green; margin-top:6px;"></div>
     <button onclick="signup()">Create Account</button>
     <span class="link" onclick="showLogin()">Already have an account? Login</span>
   </div>
@@ -45,9 +47,32 @@
       document.getElementById('login-card').style.display = 'block';
     }
 
+    // ✅ Password suggestion based on username
+    function suggestPassword() {
+      const user = document.getElementById('newUsername').value;
+      if (user) {
+        const suggestion = user + "#2026";
+        document.getElementById('passwordSuggestion').innerText =
+          "Suggested password: " + suggestion;
+        document.getElementById('newPassword').value = suggestion;
+      } else {
+        document.getElementById('passwordSuggestion').innerText = "";
+      }
+    }
+
+    // ✅ Signup with validation
     function signup() {
       const user = document.getElementById('newUsername').value;
       const pass = document.getElementById('newPassword').value;
+
+      // Username must be lowercase + number + symbol
+      const usernameRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-z0-9!@#$%^&*]+$/;
+
+      if (!usernameRegex.test(user)) {
+        alert("Username must be lowercase letters, include a number and a symbol.");
+        return;
+      }
+
       if (user && pass) {
         localStorage.setItem('user', JSON.stringify({ username: user, password: pass }));
         alert('Signup successful!');
@@ -70,7 +95,7 @@
       alert('Please contact support or reset via email (feature coming soon)');
     }
 
-    // Google Login
+    // ✅ Google Login
     function handleCredentialResponse(response) {
       const data = JSON.parse(atob(response.credential.split('.')[1]));
       localStorage.setItem('user', JSON.stringify({
