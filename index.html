@@ -1,34 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Sunil's Music Website</title>
-  <link rel="stylesheet" href="style.css">
+    <meta http-equiv="refresh" content="0; url=login.html" />
 </head>
 <body>
-  <h1>🎵 Welcome to Sunil's Music World 🎵</h1>
-  <p><a href="login.html">Login</a> | <a href="signup.html">Sign Up</a></p>
-
-
-  <div id="profile"></div>
-<script>
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
-  if (user) {
-    document.getElementById('profile').innerHTML =
-      `<div style="display:flex;align-items:center;gap:12px;">
-         <img src="${user.picture}" alt="avatar" style="width:40px;height:40px;border-radius:50%;" />
-         <div>
-           <div><strong>Name:</strong> ${user.name}</div>
-           <div><strong>Email:</strong> ${user.email}</div>
-         </div>
-         <button id="logout" style="margin-left:auto;">Logout</button>
-       </div>`;
-    document.getElementById('logout').onclick = () => {
-      localStorage.removeItem('user');
-      window.location.reload();
-    };
-  }
-</script>
-
+    <p>Redirecting to login...</p>
 </body>
 </html>
