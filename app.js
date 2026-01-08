@@ -125,3 +125,11 @@ logoutBtn.addEventListener("click", ()=>{
   showNotification("You have logged out!","#ff4d4d");
   setTimeout(()=>window.location.href="login.html",1200);
 });
+const navItems = document.querySelectorAll(".nav-items span");
+
+navItems.forEach(btn => {
+  btn.addEventListener("click", () => {
+    navItems.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+  });
+});
