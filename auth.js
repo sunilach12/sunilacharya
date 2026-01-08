@@ -24,3 +24,10 @@ function showToast(message) {
     setTimeout(() => toast.remove(), 300);
   }, 2500);
 }
+function logout() {
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("isLoggedIn");
+  showToast("You have logged out");
+  setTimeout(() => location.href = "login.html", 1200);
+}
+
