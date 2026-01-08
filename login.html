@@ -1,122 +1,31 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Themer - Login</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f9f9f9; text-align: center; margin-top: 60px; }
-    .card { max-width: 400px; margin: auto; padding: 24px; background: #fff; border-radius: 12px; box-shadow: 0 0 10px #ccc; }
-    input, button { width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
-    .link { font-size: 14px; color: blue; cursor: pointer; margin-top: 8px; display: block; }
-    #google-btn { margin-top: 12px; }
-    #passwordSuggestion { font-size: 13px; color: green; margin-top: 6px; }
-  </style>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <div class="card" id="login-card">
-    <h2>Themer Login</h2>
+    <div class="login-card">
+        <h2 id="auth-title">Login</h2>
+        <input type="text" id="username" placeholder="Username (lowercase + symbols)">
+        <span class="suggestion" onclick="fillUser()">Suggest: music_fan_2026!</span>
+        
+        <input type="password" id="password" placeholder="Password">
+        <span class="suggestion" onclick="fillPass()">Suggest: Pass#789!</span>
 
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="login()">Login</button>
+        <button class="btn btn-login" onclick="validate()">Continue</button>
+        
+        <div id="g_id_onload"
+             data-client_id="16883781766-5mp4j8t5ancqj9r4j4l9quos4io5baqk.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse">
+        </div>
+        <div class="g_id_signin" data-type="standard"></div>
 
-    <span class="link" onclick="showSignup()">Don't have an account? Sign up</span>
-    <span class="link" onclick="forgotPassword()">Forgot password?</span>
-
-    <div id="google-btn"></div>
-  </div>
-
-  <div class="card" id="signup-card" style="display:none;">
-    <h2>Sign Up</h2>
-    <input type="text" id="newUsername" placeholder="Choose a username" oninput="suggestPassword()" />
-    <input type="password" id="newPassword" placeholder="Choose a password" />
-    <div id="passwordSuggestion"></div>
-    <button onclick="signup()">Create Account</button>
-    <span class="link" onclick="showLogin()">Already have an account? Login</span>
-  </div>
-
-  <script>
-    function showSignup() {
-      document.getElementById('login-card').style.display = 'none';
-      document.getElementById('signup-card').style.display = 'block';
-    }
-
-    function showLogin() {
-      document.getElementById('signup-card').style.display = 'none';
-      document.getElementById('login-card').style.display = 'block';
-    }
-
-    function suggestPassword() {
-      const user = document.getElementById('newUsername').value;
-      if (user) {
-        const suggestion = user + "#2026";
-        document.getElementById('passwordSuggestion').innerText =
-          "Suggested password: " + suggestion;
-        document.getElementById('newPassword').value = suggestion;
-      } else {
-        document.getElementById('passwordSuggestion').innerText = "";
-      }
-    }
-
-    function signup() {
-      const user = document.getElementById('newUsername').value;
-      const pass = document.getElementById('newPassword').value;
-      const usernameRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-z0-9!@#$%^&*]+$/;
-
-      if (!usernameRegex.test(user)) {
-        alert("Username must be lowercase letters, include a number and a symbol.");
-        return;
-      }
-
-      if (user && pass) {
-        localStorage.setItem('user', JSON.stringify({ username: user, password: pass }));
-        alert('Signup successful!');
-        window.location.href = 'main.html';
-      }
-    }
-
-    function login() {
-      const user = document.getElementById('username').value;
-      const pass = document.getElementById('password').value;
-      const stored = JSON.parse(localStorage.getItem('user') || '{}');
-      if (user === stored.username && pass === stored.password) {
-        window.location.href = 'main.html';
-      } else {
-        alert('Invalid credentials');
-      }
-    }
-
-    function forgotPassword() {
-      alert('Please contact support or reset via email (feature coming soon)');
-    }
-
-    function handleCredentialResponse(response) {
-      const data = JSON.parse(atob(response.credential.split('.')[1]));
-      localStorage.setItem('user', JSON.stringify({
-        username: data.name,
-        email: data.email,
-        picture: data.picture
-      }));
-      window.location.href = 'main.html';
-    }
-
-    window.onload = function () {
-      const user = localStorage.getItem('user');
-      if (user) {
-        window.location.href = 'main.html';
-        return;
-      }
-
-      google.accounts.id.initialize({
-        client_id: "16883781766-5mp4j8t5ancqj9r4j4l9quos4io5baqk.apps.googleusercontent.com",
-        callback: handleCredentialResponse
-      });
-      google.accounts.id.renderButton(
-        document.getElementById("google-btn"),
-        { theme: "outline", size: "large" }
-      );
-    };
-  </script>
+        <div style="margin-top:15px; text-align:center;">
+            <a href="#" onclick="alert('Reset email sent!')">Forgot Password?</a><br>
+            <button onclick="toggleAuth()" style="background:none; border:none; color:blue; cursor:pointer;">Need an account? Sign Up</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
