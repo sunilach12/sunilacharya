@@ -1,84 +1,75 @@
-/* Reset & Basics */
-* { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
-body { background:#f5f7fa; color:#333; transition:0.3s; }
-.hidden { display:none; }
+* { box-sizing: border-box; font-family: Arial; }
 
-/* Navbar */
+body {
+  margin: 0;
+  background: #0f172a;
+  color: white;
+}
+
 .navbar {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:15px 30px; background:#1b1f38; color:white;
-  box-shadow:0 4px 6px rgba(0,0,0,0.2); position:fixed; top:0; width:100%; z-index:1000;
-}
-.navbar .logo { font-size:22px; font-weight:bold; letter-spacing:1px; }
-.navbar .nav-items span { margin:0 10px; cursor:pointer; transition:0.3s; }
-.navbar .nav-items span:hover { color:#1DB954; }
-.navbar .logout-btn { background:#FF4B5C; padding:6px 12px; border-radius:6px; cursor:pointer; transition:0.3s; }
-.navbar .logout-btn:hover { background:#FF6F7B; }
-
-/* Main Content */
-.main-content { padding:100px 40px 80px 40px; }
-
-/* Sections */
-.section { margin-bottom:50px; animation:fadeInUp 0.7s ease; }
-
-/* Profile Card */
-.profile-pic { width:120px; height:120px; border-radius:50%; object-fit:cover; box-shadow:0 6px 12px rgba(0,0,0,0.3); }
-.activity-card { background:white; margin:10px 0; padding:12px 16px; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1); display:flex; justify-content:space-between; align-items:center; animation:fadeInUp 0.5s ease; }
-.activity-card button { background:#FF4B5C; color:white; border:none; padding:4px 10px; border-radius:6px; cursor:pointer; transition:0.3s; }
-.activity-card button:hover { background:#FF6F7B; }
-
-/* Blog/Music/Video Forms */
-form input, form textarea, form select, form button {
-  display:block; width:100%; margin:10px 0; padding:10px; border-radius:8px; border:1px solid #ccc; transition:0.3s;
-}
-form button { background:#1DB954; color:white; border:none; cursor:pointer; }
-form button:hover { background:#17a44c; }
-
-/* Toast Notification */
-#notification {
-  position: fixed; top:20px; right:20px; padding:12px 20px;
-  border-radius:8px; font-weight:bold; color:white; opacity:0; transition:0.4s; z-index:9999;
-}
-#notification.show { opacity:1; }
-
-/* Animations */
-@keyframes fadeInUp {
-  0% { opacity:0; transform:translateY(20px); }
-  100% { opacity:1; transform:translateY(0); }
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: #020617;
 }
 
-/* Footer */
-.site-footer {
-  position:fixed; bottom:0; left:0; width:100%;
-  background:#1b1f38; color:white; padding:12px 0; display:flex; justify-content:bottom; gap:20px;
+.nav-items button {
+  margin: 0 5px;
+  padding: 8px 12px;
+  cursor: pointer;
 }
-.site-footer a { color:white; text-decoration:none; font-weight:bold; transition:0.3s; }
-.site-footer a:hover { color:#1DB954; }
 
-/* Video Section */
-video { border-radius:12px; box-shadow:0 6px 12px rgba(0,0,0,0.3); margin-top:15px; }
-
-/* Profile Onboarding Modal */
-#profileOnboard {
-  position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7);
-  display:flex; justify-content:center; align-items:center; z-index:2000; display:none;
+.logout {
+  background: red;
+  color: white;
 }
-#profileOnboard .modal-content {
-  background:white; padding:30px; border-radius:12px; width:400px; max-width:90%;
-  text-align:center; animation:fadeInUp 0.6s ease;
-}
-#profileOnboard input, #profileOnboard select { width:100%; margin:10px 0; padding:10px; border-radius:8px; border:1px solid #ccc; }
-#profileOnboard button { background:#1DB954; color:white; border:none; padding:10px 15px; border-radius:8px; cursor:pointer; transition:0.3s; }
-#profileOnboard button:hover { background:#17a44c; }
 
-.blog-card {
-  background:white; padding:15px; margin:10px 0;
-  border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1);
-  animation:fadeInUp 0.6s ease;
+.section {
+  padding: 20px;
+  animation: fade 0.4s ease;
 }
-.blog-card h3 { color:#1b1f38; margin-bottom:8px; }
-.blog-card p { color:#555; margin-bottom:8px; }
-.blog-card small { color:#999; display:block; margin-bottom:8px; }
-.blog-card .deleteBtn { background:#FF4B5C; color:white; border:none; padding:5px 10px; border-radius:6px; cursor:pointer; }
-.blog-card .deleteBtn:hover { background:#FF6F7B; }
 
+.hidden {
+  display: none;
+}
+
+textarea, input {
+  display: block;
+  width: 100%;
+  margin: 5px 0;
+  padding: 8px;
+}
+
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-top: 5px;
+}
+
+.blog {
+  background: #020617;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #020617;
+  text-align: center;
+  padding: 10px;
+}
+
+footer a {
+  color: white;
+  margin: 0 10px;
+}
+
+@keyframes fade {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1;}
+}
