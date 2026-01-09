@@ -1,89 +1,50 @@
- <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
-
-<link rel="stylesheet" href="style.css">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar">
-  <div class="logo">🌟 SunilAcharya3</div>
-  <div class="nav-items">
-    <button id="homeBtn">Home</button>
-    <button id="blogBtn">Blog</button>
-    <button id="musicBtn">Music</button>
-    <button id="videoBtn">Video</button>
-    <button id="profileBtn">Profile</button>
-    <button id="settingsBtn">Settings</button>
-  </div>
-  <button id="logoutBtn" class="logout">Logout</button>
+  <span class="logo">🌟 SunilAcharya3</span>
+  <button onclick="showSection('home')">Home</button>
+  <button onclick="showSection('blog')">Blog</button>
+  <button onclick="showSection('music')">Music</button>
+  <button onclick="showSection('profile')">Profile</button>
+  <button onclick="logout()">Logout</button>
 </nav>
 
-<!-- MAIN -->
-<main>
-
-<section id="homeSection" class="section">
-  <h1>Welcome <span id="userDisplayName"></span> 👋</h1>
-  <p>Explore content shared by users.</p>
+<section id="home" class="section">
+  <h2>Welcome <span id="userName"></span></h2>
+  <video controls autoplay muted loop>
+    <source src="assets/intro.mp4">
+  </video>
 </section>
 
-<section id="blogSection" class="section hidden">
+<section id="blog" class="section hidden">
   <h2>Create Blog</h2>
-  <input id="blogTitle" placeholder="Blog title">
-  <textarea id="blogContent" placeholder="Write blog..."></textarea>
-  <button id="postBlog">Post</button>
-
-  <h2>All Blogs</h2>
-  <div id="blogsContainer"></div>
+  <input id="blogTitle" placeholder="Title">
+  <textarea id="blogText"></textarea>
+  <button onclick="postBlog()">Post</button>
+  <div id="blogs"></div>
 </section>
 
-<section id="musicSection" class="section hidden">
-  <h2>Music Upload</h2>
-  <input id="musicTitle" placeholder="Song title">
+<section id="music" class="section hidden">
+  <h2>Upload Music</h2>
   <input type="file" id="musicFile">
-  <button id="uploadMusic">Upload</button>
-
-  <div id="musicContainer"></div>
 </section>
 
-<section id="videoSection" class="section hidden">
-  <h2>Video Upload</h2>
-  <input id="videoTitle" placeholder="Video title">
-  <input type="file" id="videoFile">
-  <button id="uploadVideo">Upload</button>
-
-  <div id="videoContainer"></div>
-</section>
-
-<section id="profileSection" class="section hidden">
-  <h2>Your Profile</h2>
+<section id="profile" class="section hidden">
   <img id="profilePic" src="assets/defaultavatar.png">
-  <input id="profileName" placeholder="Your name">
-  <button id="saveProfile">Save Profile</button>
-
-  <h3>Your Blogs</h3>
+  <h3 id="profileName"></h3>
   <div id="myBlogs"></div>
 </section>
 
-<section id="settingsSection" class="section hidden">
-  <h2>Settings</h2>
-  <p>Dark mode & more coming soon.</p>
-</section>
-
-</main>
-
-<footer>
-  <a href="#">Facebook</a>
-  <a href="#">WhatsApp</a>
-  <a href="#">Contact</a>
-</footer>
-
 <script src="auth.js" defer></script>
-<script src="app.js" defer></script>
 <script src="blog.js" defer></script>
+<script src="app.js"></script>
 </body>
 </html>
+
+
