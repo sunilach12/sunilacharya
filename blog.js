@@ -1,67 +1,51 @@
-// Elements
-const blogForm = document.getElementById("blogForm");
-const blogsContainer = document.getElementById("blogsContainer");
+const blogs = JSON.parse(localStorage.getItem("blogs") || "[]");
 
-// Current user
-let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-let users = JSON.parse(localStorage.getItem("users")) || [];
+function saveBlogs() {
+  localStorage.setItem("blogs", JSON.stringify(blogs));
+}
 
-// Submit blog
-blogForm.addEventListener("submit", e => {
-  e.preventDefault();
-  const title = document.getElementById("blogTitle").value.trim();
-  const content = document.getElementById("blogContent").value.trim();
-  if(!title || !content) return showNotification("Please enter title and content", "#FF4B5C");
-
-  const blog = { title, content, date: new Date().toLocaleString() };
-
-  // Save to current user
-  currentUser.blogs = currentUser.blogs || [];
-  currentUser.blogs.push(blog);
-
-  // Update users array
-  const index = users.findIndex(u => u.username === currentUser.username);
-  users[index] = currentUser;
-
-  localStorage.setItem("users", JSON.stringify(users));
-  localStorage.setItem("currentUser", JSON.stringify(currentUser));
-
-  showNotification("Blog posted!", "#1DB954");
-  blogForm.reset();
-  renderBlogs();
-  updateProfileUI(); // Update recent activity
-});
-
-// Render blogs for all users
 function renderBlogs() {
-  blogsContainer.innerHTML = "";
-  users.forEach(u => {
-    u.blogs?.forEach((blog, idx) => {
-      const div = document.createElement("div");
-      div.className = "blog-card animated-blogs";
-      div.innerHTML = `
-        <h3>${blog.title}</h3>
-        <p>${blog.content}</p>
-        <small>By: ${u.firstName||u.username} (${u.date || ""})</small>
-        ${u.username === currentUser.username ? '<button class="deleteBtn">Delete</button>' : ""}
-      `;
-      // Delete functionality
-      if(u.username === currentUser.username){
-        div.querySelector(".deleteBtn").addEventListener("click", () => {
-          currentUser.blogs.splice(idx, 1);
-          const i = users.findIndex(user => user.username === currentUser.username);
-          users[i] = currentUser;
-          localStorage.setItem("users", JSON.stringify(users));
-          localStorage.setItem("currentUser", JSON.stringify(currentUser));
-          showNotification("Blog deleted!", "#FF4B5C");
-          renderBlogs();
-          updateProfileUI();
-        });
-      }
-      blogsContainer.appendChild(div);
-    });
+  const all = document.getElementById("blogsContainer");
+  const mine = document.getElementById("myBlogs");
+
+  all.innerHTML = "";
+  mine.innerHTML = "";
+
+  blogs.forEach((b, i) => {
+    const div = document.createElement("div");
+    div.className = "blog";
+    div.innerHTML = `
+      <h3>${b.title}</h3>
+      <p>${b.content}</p>
+      <small>By ${b.author}</small>
+      ${b.mine ? `<button onclick="deleteBlog(${i})">Delete</button>` : ""}
+    `;
+    all.appendChild(div);
+
+    if (b.mine) mine.appendChild(div.cloneNode(true));
   });
 }
 
-// Initial render
+document.getElementById("postBlog").onclick = () => {
+  const title = blogTitle.value;
+  const content = blogContent.value;
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  blogs.push({
+    title,
+    content,
+    author: user.name,
+    mine: true
+  });
+
+  saveBlogs();
+  renderBlogs();
+};
+
+function deleteBlog(i) {
+  blogs.splice(i, 1);
+  saveBlogs();
+  renderBlogs();
+}
+
 renderBlogs();
