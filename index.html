@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sunil Acharya - Dashboard</title>
+<title>Dashboard</title>
+
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,140 +13,77 @@
 <nav class="navbar">
   <div class="logo">🌟 SunilAcharya3</div>
   <div class="nav-items">
-    <span id="homeBtn">Home</span>
-    <span id="blogBtn">Blog</span>
-    <span id="musicBtn">Music</span>
-    <span id="videoBtn">Videos</span>
-    <span id="profileBtn">Profile</span>
-    <span id="settingsBtn">Settings</span>
+    <button id="homeBtn">Home</button>
+    <button id="blogBtn">Blog</button>
+    <button id="musicBtn">Music</button>
+    <button id="videoBtn">Video</button>
+    <button id="profileBtn">Profile</button>
+    <button id="settingsBtn">Settings</button>
   </div>
-     <input type="text" id="searchUser" placeholder="Search user by username...">
-<div id="searchResults"></div>
-  <div class="logout-btn" id="logoutBtn">Logout</div>
+  <button id="logoutBtn" class="logout">Logout</button>
 </nav>
 
-<!-- TOAST NOTIFICATION -->
-<div id="notification" class="notification"></div>
+<!-- MAIN -->
+<main>
 
-<!-- MAIN CONTENT -->
-<div class="main-content">
+<section id="homeSection" class="section">
+  <h1>Welcome <span id="userDisplayName"></span> 👋</h1>
+  <p>Explore content shared by users.</p>
+</section>
 
-  <!-- HOME -->
-  <section id="homeSection" class="section">
-    <h1>Welcome, <span id="userDisplayName"></span>!</h1>
-    <p>Explore blogs, music, and videos shared by the community.</p>
-    <video controls autoplay muted loop width="100%">
-      <source src="assets/homeVideo.mp4" type="video/mp4">
-    </video>
-  </section>
+<section id="blogSection" class="section hidden">
+  <h2>Create Blog</h2>
+  <input id="blogTitle" placeholder="Blog title">
+  <textarea id="blogContent" placeholder="Write blog..."></textarea>
+  <button id="postBlog">Post</button>
 
-  <!-- BLOG -->
-  <section id="blogSection" class="section hidden">
-    <h2>Blogs</h2>
-    <button id="newBlogBtn">Create New Blog</button>
+  <h2>All Blogs</h2>
+  <div id="blogsContainer"></div>
+</section>
 
-    <!-- New Blog Modal -->
-    <div id="blogFormModal" class="modal hidden">
-      <form id="blogForm">
-        <input type="text" id="blogTitle" placeholder="Blog Title" required>
-        <textarea id="blogContent" placeholder="Write your blog..." required></textarea>
-        <input type="file" id="blogImage">
-        <button type="submit">Post Blog</button>
-        <button type="button" id="closeBlogForm">Cancel</button>
-      </form>
-    </div>
+<section id="musicSection" class="section hidden">
+  <h2>Music Upload</h2>
+  <input id="musicTitle" placeholder="Song title">
+  <input type="file" id="musicFile">
+  <button id="uploadMusic">Upload</button>
 
-    <div id="blogsContainer"></div>
-  </section>
+  <div id="musicContainer"></div>
+</section>
 
-  <!-- MUSIC -->
-  <section id="musicSection" class="section hidden">
-    <h2>Music Library</h2>
-    <button id="newMusicBtn">Upload Music</button>
+<section id="videoSection" class="section hidden">
+  <h2>Video Upload</h2>
+  <input id="videoTitle" placeholder="Video title">
+  <input type="file" id="videoFile">
+  <button id="uploadVideo">Upload</button>
 
-    <div id="musicFormModal" class="modal hidden">
-      <form id="musicForm">
-        <input type="text" id="musicTitle" placeholder="Song Title" required>
-        <input type="file" id="musicFile" accept="audio/*" required>
-        <button type="submit">Upload Music</button>
-        <button type="button" id="closeMusicForm">Cancel</button>
-      </form>
-    </div>
+  <div id="videoContainer"></div>
+</section>
 
-    <div id="musicContainer"></div>
-  </section>
+<section id="profileSection" class="section hidden">
+  <h2>Your Profile</h2>
+  <img id="profilePic" src="assets/defaultavatar.png">
+  <input id="profileName" placeholder="Your name">
+  <button id="saveProfile">Save Profile</button>
 
-  <!-- VIDEOS -->
-  <section id="videoSection" class="section hidden">
-    <h2>Videos</h2>
-    <button id="newVideoBtn">Upload Video</button>
+  <h3>Your Blogs</h3>
+  <div id="myBlogs"></div>
+</section>
 
-    <div id="videoFormModal" class="modal hidden">
-      <form id="videoForm">
-        <input type="text" id="videoTitle" placeholder="Video Title" required>
-        <input type="file" id="videoFile" accept="video/*" required>
-        <button type="submit">Upload Video</button>
-        <button type="button" id="closeVideoForm">Cancel</button>
-      </form>
-    </div>
+<section id="settingsSection" class="section hidden">
+  <h2>Settings</h2>
+  <p>Dark mode & more coming soon.</p>
+</section>
 
-    <div id="videoContainer"></div>
-  </section>
+</main>
 
-  <!-- PROFILE -->
-  <section id="profileSection" class="section hidden">
-    <h2>Your Profile</h2>
-    <img id="profilePic" src="assets/defaultavatar.png" alt="Profile Picture" class="profile-pic">
-    <p id="profileName"></p>
-    <p id="profileEmail"></p>
-    <p id="profilePhone"></p>
-    <p id="profileCountry"></p>
-    <button id="editProfileBtn">Edit Profile</button>
-
-    <div id="editProfileForm" class="hidden">
-      <input type="text" id="editFirstName" placeholder="First Name">
-      <input type="text" id="editLastName" placeholder="Last Name">
-      <input type="tel" id="editPhone" placeholder="Phone Number">
-      <select id="editCountry">
-        <option value="Nepal">🇳🇵 Nepal</option>
-        <option value="USA">🇺🇸 USA</option>
-        <option value="India">🇮🇳 India</option>
-        <option value="UK">🇬🇧 UK</option>
-      </select>
-      <input type="file" id="editPhoto">
-      <button id="saveProfileBtn">Save</button>
-    </div>
-
-    <h3>Recent Activity</h3>
-    <div id="recentActivity"></div>
-  </section>
-
-  <!-- SETTINGS -->
-  <section id="settingsSection" class="section hidden">
-    <h2>Settings</h2>
-    <form id="passwordForm">
-      <input type="password" id="currentPass" placeholder="Current Password" required>
-      <input type="password" id="newPass" placeholder="New Password" required>
-      <input type="password" id="confirmPass" placeholder="Confirm New Password" required>
-      <button type="submit">Change Password</button>
-    </form>
-  </section>
-
-</div>
-
-<!-- FOOTER -->
-<footer class="site-footer">
-  <a href="https://facebook.com/YOUR_ID" target="_blank">Facebook</a>
-  <a href="https://linkedin.com/in/YOUR_ID" target="_blank">LinkedIn</a>
-  <a href="mailto:your@gmail.com">Gmail</a>
-  <a href="https://wa.me/977XXXXXXXXX">WhatsApp</a>
+<footer>
+  <a href="#">Facebook</a>
+  <a href="#">WhatsApp</a>
+  <a href="#">Contact</a>
 </footer>
 
-<script src="app.js"></script>
-<script src="blog.js"></script>
-<script src="music.js"></script>
-<script src="video.js"></script>
-  <script src="search.js"></script>
-
+<script src="auth.js" defer></script>
+<script src="app.js" defer></script>
+<script src="blog.js" defer></script>
 </body>
 </html>
