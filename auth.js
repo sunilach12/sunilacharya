@@ -1,13 +1,13 @@
-let currentUser = {
-  username: "Sunil",
-  firstName: "Sunil",
-  lastName: "Acharya",
-  email: "sunil@example.com",
-  phone: "977XXXXXXXXX",
-  country: "Nepal",
-  photo: "assets/defaultavatar.png",
-  blogs: [],
-  music: [],
-  videos: []
+ 
+if (!localStorage.getItem("user")) {
+  localStorage.setItem("user", JSON.stringify({
+    email: "demo@gmail.com",
+    name: "Demo User"
+  }));
+}
+
+document.getElementById("logoutBtn").onclick = () => {
+  localStorage.clear();
+  location.reload();
 };
-localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
