@@ -15,16 +15,17 @@ async function init() {
 
 // 2. Load Existing Posts
 async function loadPosts() {
-    try {
-        const records = await pb.collection('posts').getFullList({
+    try { 
+        const records = await pb.collection('posts').getFullList({ 
             sort: '-created',
             expand: 'user',
-        });
+        }); 
         postsContainer.innerHTML = '';
-        records.forEach(renderPost);
-    } catch (err) {
-        console.error("Load error:", err);
-    }
+        records.forEach(renderPost); 
+        } catch (err) { 
+        console.error("Load error:", err); 
+        postsContainer.innerHTML = `<div class="error">⚠️ Unable to load posts. Server error.</div>`; 
+    } 
 }
 
 // 3. Render a Post Card
@@ -77,8 +78,11 @@ function subscribeToPosts() {
 
 // 6. Member Count Utility
 async function updateMemberCount() {
-    const users = await pb.collection('users').getList(1, 1);
-    sideCounter.innerText = `${users.totalItems} / 75`;
-}
+    try {
+        const users = await pb.collection('users').getList(1, 1); 
+        sideCounter.innerText = `${users.totalItems} / 75`; 
+    } catch (err) { 
+        console.error("Count error:", err); 
+        sideCounter.innerText = `⚠️ Error`; } }
 
 init();
