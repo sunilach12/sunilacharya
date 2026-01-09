@@ -80,3 +80,20 @@ async function loadMembers() {
 // Update your Initialize section at the bottom to include this:
 updateUI();
 loadMembers();
+function filterMembers() {
+    const input = document.getElementById('member-search');
+    const filter = input.value.toLowerCase();
+    const list = document.getElementById('members-list');
+    const cards = list.getElementsByClassName('member-card');
+
+    for (let i = 0; i < cards.length; i++) {
+        const nameSpan = cards[i].getElementsByClassName('member-name')[0];
+        const txtValue = nameSpan.textContent || nameSpan.innerText;
+        
+        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
