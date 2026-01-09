@@ -1,88 +1,91 @@
 const pb = new PocketBase('https://linquid.pockethost.io');
-pb.autoCancellation(false);
+pb.autoCancellation(false); // Fixes the 'autocancelled' error
 
 const postsContainer = document.getElementById('posts-container');
 const postInput = document.getElementById('post-input');
 const postBtn = document.getElementById('post-btn');
 const sideCounter = document.getElementById('side-counter');
 
-// 1. Initial Load
+// 1. Start the App
 async function init() {
     updateMemberCount();
     loadPosts();
-    subscribeToPosts(); // Real-time magic
+    subscribeToPosts();
+    checkUserStatus();
 }
 
-// 2. Load Existing Posts
+// 2. Check if user is logged in
+function checkUserStatus() {
+    if (pb.authStore.isValid) {
+        document.getElementById('my-avatar').src = pb.files.getUrl(pb.authStore.model, pb.authStore.model.avatar) || `https://ui-avatars.com/api/?name=${pb.authStore.model.name}`;
+    }
+}
+
+// 3. Load Feed
 async function loadPosts() {
-    try { 
-        const records = await pb.collection('posts').getFullList({ 
+    try {
+        const records = await pb.collection('posts').getFullList({
             sort: '-created',
             expand: 'user',
-        }); 
-        postsContainer.innerHTML = '';
-        records.forEach(renderPost); 
-        } catch (err) { 
-        console.error("Load error:", err); 
-        postsContainer.innerHTML = `<div class="error">⚠️ Unable to load posts. Server error.</div>`; 
-    } 
+        });
+        postsContainer.innerHTML = ''; // Clear loading text
+        records.forEach(renderPost);
+    } catch (err) {
+        postsContainer.innerHTML = '<p style="color:red">Please create the "posts" collection in Admin Dashboard.</p>';
+    }
 }
 
-// 3. Render a Post Card
 function renderPost(post) {
-    const user = post.expand.user;
+    const user = post.expand?.user;
     const photo = user?.avatar ? pb.files.getUrl(user, user.avatar) : `https://ui-avatars.com/api/?name=${user?.name || 'User'}`;
     
     const html = `
-        <div class="post-card" id="post-${post.id}">
+        <div class="post-card">
             <div class="post-header">
                 <img src="${photo}" class="pfp">
                 <div>
-                    <div class="member-name">${user?.name || 'Anonymous'}</div>
-                    <small style="color:gray">${new Date(post.created).toLocaleString()}</small>
+                    <strong>${user?.name || 'Student'}</strong>
+                    <div style="font-size:12px; color:gray">${new Date(post.created).toLocaleString()}</div>
                 </div>
             </div>
             <div class="post-content">${post.content}</div>
-        </div>
-    `;
+        </div>`;
     postsContainer.insertAdjacentHTML('afterbegin', html);
 }
 
-// 4. Create a New Post (safe null check)
-if (postBtn) {
-    postBtn.addEventListener('click', async () => {
-        if (!pb.authStore.isValid) return alert("Please log in first!");
-        if (!postInput.value.trim()) return;
-
+// 4. Post Message
+postBtn.addEventListener('click', async () => {
+    if (!pb.authStore.isValid) {
+        // If not logged in, trigger Google Login
         try {
-            await pb.collection('posts').create({
-                content: postInput.value,
-                user: pb.authStore.model.id
-            });
-            postInput.value = ''; // Clear input
-        } catch (err) {
-            alert("Post failed: " + err.message);
-        }
-    });
-}
+            await pb.collection('users').authWithOAuth2({ provider: 'google' });
+            location.reload();
+        } catch (e) { alert("Please login with Google first!"); }
+        return;
+    }
 
-// 5. Real-time Subscription
+    if (postInput.value.trim()) {
+        await pb.collection('posts').create({
+            content: postInput.value,
+            user: pb.authStore.model.id
+        });
+        postInput.value = '';
+    }
+});
+
+// 5. Real-time updates
 function subscribeToPosts() {
-    pb.collection('posts').subscribe('*', function (e) {
+    pb.collection('posts').subscribe('*', async (e) => {
         if (e.action === 'create') {
-            pb.collection('posts').getOne(e.record.id, { expand: 'user' })
-              .then(renderPost);
+            const newPost = await pb.collection('posts').getOne(e.record.id, { expand: 'user' });
+            renderPost(newPost);
         }
     });
 }
 
-// 6. Member Count Utility
 async function updateMemberCount() {
-    try {
-        const users = await pb.collection('users').getList(1, 1); 
-        sideCounter.innerText = `${users.totalItems} / 75`; 
-    } catch (err) { 
-        console.error("Count error:", err); 
-        sideCounter.innerText = `⚠️ Error`; } }
+    const res = await pb.collection('users').getList(1, 1);
+    sideCounter.innerText = `${res.totalItems} / 75`;
+}
 
 init();
