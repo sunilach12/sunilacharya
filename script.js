@@ -1,5 +1,8 @@
-const pb = new PocketBase('https://linquid.pockethost.io');
-pb.autoCancellation(false);// Fixes the 'autocancelled' error
+// Replace 'your-new-link' with the domain you just generated in Step 1
+const pb = new PocketBase('https://sunilacharya-production.up.railway.app'); 
+
+// This line stops the "autocancelled" error shown in your first image
+pb.autoCancellation(false);
 
 const postsContainer = document.getElementById('posts-container');
 const postInput = document.getElementById('post-input');
