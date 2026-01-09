@@ -1,5 +1,5 @@
 const pb = new PocketBase('https://linquid.pockethost.io');
-pb.autoCancellation(false); // Fixes the 'autocancelled' error
+pb.autoCancellation(false);// Fixes the 'autocancelled' error
 
 const postsContainer = document.getElementById('posts-container');
 const postInput = document.getElementById('post-input');
