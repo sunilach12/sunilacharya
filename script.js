@@ -1,4 +1,4 @@
- let boxes = document.querySelectorAll(".box");
+  let boxes = document.querySelectorAll(".box");
 let  message = document.querySelector(".msg");
 let  newBtn = document.querySelector("#new");
 let  p = document.querySelector("#msgg");
