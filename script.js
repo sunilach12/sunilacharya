@@ -72,3 +72,30 @@ reset.addEventListener("click",enable);
 newBtn.addEventListener("click",enable);
 
 
+
+let btn = document.querySelector("#btn");
+btn.addEventListener("click",()=>{
+    foodItem();
+})
+
+async function foodItem(){
+  // HardWare check
+    if(!navigator.online){
+        alert("Check Your internet Connection  thank You")
+        return 
+    }
+    try{ 
+    const url = `https://api.frontendexpert.io/api/fe/glossary-suggestions?query=${foodItem}`
+    let d = document.querySelector("#message");
+    let input = document.querySelector("#health").value;
+     let response = await fetch(url)
+     let data = await response.json();
+     console.log(data)
+    }
+    catch(error){
+
+    }
+
+}
+
+
