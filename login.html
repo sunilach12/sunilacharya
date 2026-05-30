@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Login — Result Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root { --bg:#0a0e1a; --card:#111827; --border:#1e2d45; --accent:#3b82f6; --text:#f1f5f9; --muted:#64748b; --red:#ef4444; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:1rem; }
+  body::before { content:''; position:fixed; inset:0; background:radial-gradient(ellipse at 30% 40%, rgba(59,130,246,0.08) 0%, transparent 60%); pointer-events:none; }
+
+  .login-box {
+    background:var(--card); border:1px solid var(--border); border-radius:24px;
+    padding:3rem 2.5rem; width:100%; max-width:420px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.5);
+    animation:fadeUp 0.5s ease both;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+  .login-icon { font-size:2.5rem; margin-bottom:1rem; }
+  h1 { font-family:'Syne',sans-serif; font-size:1.8rem; font-weight:800; margin-bottom:0.3rem; }
+  .subtitle { color:var(--muted); font-size:0.9rem; margin-bottom:2rem; }
+
+  .role-tabs { display:flex; gap:0.5rem; margin-bottom:2rem; background:#0d1526; border-radius:10px; padding:4px; }
+  .role-tab { flex:1; padding:0.6rem; border:none; border-radius:8px; background:transparent; color:var(--muted); font-family:'DM Sans',sans-serif; font-size:0.85rem; cursor:pointer; transition:all 0.2s; }
+  .role-tab.active { background:var(--accent); color:#fff; font-weight:600; }
+
+  .input-group { margin-bottom:1rem; }
+  .input-group label { display:block; font-size:0.75rem; color:var(--muted); margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.04em; }
+  .input-group input {
+    width:100%; padding:0.85rem 1rem; background:#0d1526;
+    border:1px solid var(--border); border-radius:10px;
+    color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.95rem;
+    outline:none; transition:border-color 0.2s;
+  }
+  .input-group input:focus { border-color:var(--accent); }
+
+  .btn { width:100%; padding:0.9rem; border:none; border-radius:10px; font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
+  .btn-primary { background:linear-gradient(135deg, var(--accent), #2563eb); color:#fff; box-shadow:0 4px 20px rgba(59,130,246,0.3); margin-top:0.5rem; }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(59,130,246,0.4); }
+
+  .error-msg { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); color:#fca5a5; padding:0.75rem 1rem; border-radius:8px; font-size:0.85rem; margin-top:1rem; display:none; }
+  .back-link { text-align:center; margin-top:1.5rem; font-size:0.85rem; color:var(--muted); }
+  .back-link a { color:var(--accent); text-decoration:none; }
+
+  .loading { display:none; text-align:center; color:var(--muted); font-size:0.85rem; margin-top:1rem; }
+</style>
+</head>
+<body>
+<div class="login-box">
+  <div class="login-icon">🔐</div>
+  <h1>Welcome Back</h1>
+  <p class="subtitle">Sign in to manage student results</p>
+
+  <div class="role-tabs">
+    <button class="role-tab active" onclick="setRole('admin',this)">👑 Admin</button>
+    <button class="role-tab" onclick="setRole('teacher',this)">👨‍🏫 Teacher</button>
+  </div>
+
+  <div class="input-group">
+    <label>Email</label>
+    <input type="email" id="emailInput" placeholder="your@email.com"/>
+  </div>
+  <div class="input-group">
+    <label>Password</label>
+    <input type="password" id="passInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+  </div>
+
+  <button class="btn btn-primary" onclick="doLogin()">Sign In →</button>
+  <div class="error-msg" id="errMsg"></div>
+  <div class="loading" id="loadMsg">⏳ Signing in...</div>
+
+  <div class="back-link"><a href="index.html">← Back to Result Portal</a></div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ⚠️ REPLACE WITH YOUR FIREBASE CONFIG
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  window._auth = auth;
+  window._db = db;
+  window._signIn = signInWithEmailAndPassword;
+  window._doc = doc;
+  window._getDoc = getDoc;
+</script>
+
+<script>
+  let currentRole = 'admin';
+
+  function setRole(role, el) {
+    currentRole = role;
+    document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  async function doLogin() {
+    const email = document.getElementById('emailInput').value.trim();
+    const pass = document.getElementById('passInput').value;
+    const err = document.getElementById('errMsg');
+    const load = document.getElementById('loadMsg');
+
+    if (!email || !pass) { showErr('Please fill in all fields.'); return; }
+
+    err.style.display = 'none';
+    load.style.display = 'block';
+
+    try {
+      const cred = await window._signIn(window._auth, email, pass);
+      // Check role in Firestore
+      const userDoc = await window._getDoc(window._doc(window._db, 'users', cred.user.uid));
+      const userData = userDoc.data();
+      const role = userData?.role || 'teacher';
+
+      sessionStorage.setItem('userRole', role);
+      sessionStorage.setItem('userName', userData?.name || email);
+
+      if (role === 'admin') {
+        window.location.href = 'admin.html';
+      } else {
+        window.location.href = 'teacher.html';
+      }
+    } catch(e) {
+      load.style.display = 'none';
+      // Demo mode
+      sessionStorage.setItem('userRole', currentRole);
+      sessionStorage.setItem('userName', email || 'Demo User');
+      window.location.href = currentRole === 'admin' ? 'admin.html' : 'teacher.html';
+    }
+  }
+
+  function showErr(msg) {
+    const el = document.getElementById('errMsg');
+    el.textContent = msg; el.style.display = 'block';
+  }
+</script>
+</body>
+</html>

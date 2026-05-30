@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Teacher Panel — Result Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root { --bg:#0a0e1a; --card:#111827; --border:#1e2d45; --accent:#06b6d4; --green:#10b981; --red:#ef4444; --text:#f1f5f9; --muted:#64748b; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; }
+
+  .topbar { position:sticky;top:0;z-index:100;background:rgba(10,14,26,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center; }
+  .logo { font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem; }
+  .logo span { color:var(--accent); }
+  .topbar-right { display:flex;align-items:center;gap:1rem;font-size:0.85rem;color:var(--muted); }
+  .badge-role { background:rgba(6,182,212,0.15);color:var(--accent);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600; }
+  .btn-logout { background:none;border:1px solid var(--border);color:var(--muted);padding:0.4rem 0.8rem;border-radius:6px;cursor:pointer;font-size:0.8rem;transition:all 0.2s; }
+  .btn-logout:hover { border-color:var(--red);color:var(--red); }
+
+  .main { max-width:900px;margin:0 auto;padding:2.5rem 1.5rem; }
+  .page-header { margin-bottom:2rem; }
+  .page-header h1 { font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;margin-bottom:0.3rem; }
+  .page-header p { color:var(--muted); }
+
+  .tabs { display:flex;gap:0.5rem;margin-bottom:2rem;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:4px;width:fit-content; }
+  .tab { padding:0.6rem 1.2rem;border-radius:8px;border:none;background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer;transition:all 0.2s; }
+  .tab.active { background:var(--accent);color:#000;font-weight:600; }
+
+  .section { display:none; }
+  .section.active { display:block;animation:fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+  .card { background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:1.5rem; }
+  .card h3 { font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:1.2rem; }
+
+  .form-group { margin-bottom:1rem; }
+  .form-group label { display:block;font-size:0.75rem;color:var(--muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.04em; }
+  .form-group input, .form-group select { width:100%;padding:0.75rem 1rem;background:#0d1526;border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s; }
+  .form-group input:focus, .form-group select:focus { border-color:var(--accent); }
+  .form-group select option { background:#0d1526; }
+  .form-row { display:grid;grid-template-columns:1fr 1fr;gap:1rem; }
+
+  .btn { padding:0.75rem 1.5rem;border-radius:8px;font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;border:none;transition:all 0.2s; }
+  .btn-primary { background:linear-gradient(135deg,var(--accent),#0891b2);color:#000;box-shadow:0 4px 15px rgba(6,182,212,0.3); }
+  .btn-primary:hover { transform:translateY(-1px);box-shadow:0 6px 20px rgba(6,182,212,0.4); }
+  .btn-secondary { background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--muted); }
+
+  /* Marks entry table */
+  .marks-table { width:100%;border-collapse:collapse; }
+  .marks-table th { text-align:left;font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;padding:0.6rem 0.75rem;border-bottom:1px solid var(--border); }
+  .marks-table td { padding:0.6rem 0.75rem;border-bottom:1px solid rgba(30,45,69,0.4); }
+  .marks-table input { width:100%;padding:0.5rem;background:#0d1526;border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;text-align:center;font-size:0.9rem;outline:none; }
+  .marks-table input:focus { border-color:var(--accent); }
+  .marks-table tr:last-child td { border-bottom:none; }
+
+  .student-info-bar { background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:10px;padding:1rem;margin-bottom:1.2rem;display:flex;gap:2rem;flex-wrap:wrap; }
+  .info-item .label { font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em; }
+  .info-item .value { font-weight:600;font-size:0.95rem; }
+
+  /* Students list for teacher */
+  .student-list-item { display:flex;justify-content:space-between;align-items:center;padding:0.9rem 1rem;border-bottom:1px solid rgba(30,45,69,0.4);transition:background 0.15s; }
+  .student-list-item:hover { background:rgba(6,182,212,0.04); }
+  .student-list-item:last-child { border-bottom:none; }
+  .s-name { font-weight:600; }
+  .s-roll { color:var(--muted);font-size:0.8rem; }
+  .btn-enter { background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);color:var(--accent);padding:0.35rem 0.7rem;border-radius:6px;cursor:pointer;font-size:0.8rem;font-weight:600;transition:all 0.15s; }
+  .btn-enter:hover { background:rgba(6,182,212,0.2); }
+
+  .marks-status { font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:4px; }
+  .marks-done { background:rgba(16,185,129,0.1);color:var(--green); }
+  .marks-pending { background:rgba(245,158,11,0.1);color:#f59e0b; }
+
+  .toast { position:fixed;bottom:2rem;right:2rem;background:var(--card);border:1px solid var(--green);color:var(--green);padding:0.75rem 1.2rem;border-radius:10px;font-size:0.85rem;display:none;z-index:1000; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">Result<span>Portal</span> <span style="font-size:0.7rem;color:var(--muted);font-weight:400;margin-left:4px">Teacher</span></div>
+  <div class="topbar-right">
+    <span id="userName">Teacher</span>
+    <span class="badge-role">TEACHER</span>
+    <button class="btn-logout" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="page-header">
+    <h1>Teacher Panel</h1>
+    <p>Enter and update student marks easily.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('enterMarks',this)">✏️ Enter Marks</button>
+    <button class="tab" onclick="showTab('myStudents',this)">👥 My Students</button>
+  </div>
+
+  <!-- ENTER MARKS TAB -->
+  <div class="section active" id="tab-enterMarks">
+    <div class="card">
+      <h3>🔍 Find Student</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Roll Number</label>
+          <input type="text" id="searchRoll" placeholder="e.g. BCA001"/>
+        </div>
+        <div class="form-group">
+          <label>Semester</label>
+          <select id="searchSem">
+            <option value="">Any</option>
+            <option>I</option><option>II</option><option>III</option>
+            <option>IV</option><option>V</option><option>VI</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="findStudent()">Find Student</button>
+    </div>
+
+    <div id="marksEntryArea" style="display:none">
+      <div class="card">
+        <h3>📝 Enter / Update Marks</h3>
+        <div class="student-info-bar" id="studentInfoBar"></div>
+        <table class="marks-table">
+          <thead>
+            <tr><th>Subject</th><th>Full Marks</th><th>Pass Marks</th><th>Obtained Marks</th><th>Status</th></tr>
+          </thead>
+          <tbody id="marksTableBody"></tbody>
+        </table>
+        <div style="margin-top:1.5rem;display:flex;gap:1rem">
+          <button class="btn btn-primary" onclick="saveMarks()">💾 Save Marks</button>
+          <button class="btn btn-secondary" onclick="cancelMarks()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY STUDENTS TAB -->
+  <div class="section" id="tab-myStudents">
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <span style="font-family:'Syne',sans-serif;font-weight:700" id="myStudentsLabel">Students</span>
+        <input type="text" placeholder="Search..." oninput="filterMyStudents(this.value)"
+          style="padding:0.5rem 0.8rem;background:#0d1526;border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:0.8rem;outline:none;width:180px"/>
+      </div>
+      <div id="myStudentsList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Saved!</div>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ⚠️ REPLACE WITH YOUR FIREBASE CONFIG
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  window._db = db;
+  window._fb = { collection, getDocs, doc, getDoc, updateDoc, query, where };
+</script>
+
+<script>
+  let currentStudent = null;
+  let allStudents = [];
+
+  document.getElementById('userName').textContent = sessionStorage.getItem('userName') || 'Teacher';
+
+  window.addEventListener('load', loadAllStudents);
+
+  function showTab(id, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-'+id).classList.add('active');
+    el.classList.add('active');
+    if(id === 'myStudents') renderMyStudents(allStudents);
+  }
+
+  async function loadAllStudents() {
+    try {
+      const { collection, getDocs } = window._fb;
+      const snap = await getDocs(collection(window._db,'students'));
+      allStudents = snap.docs.map(d => d.data());
+    } catch(e) {
+      allStudents = [
+        { roll_no:'BCA001', name:'Ram Sharma', faculty:'BCA', semester:'II',
+          subjects:[{name:'Math',full_marks:100,pass_marks:40,obtained_marks:78},{name:'English',full_marks:100,pass_marks:40,obtained_marks:65},{name:'Programming',full_marks:100,pass_marks:40,obtained_marks:88}] },
+        { roll_no:'BCA002', name:'Sita Rai', faculty:'BCA', semester:'II',
+          subjects:[{name:'Math',full_marks:100,pass_marks:40,obtained_marks:92},{name:'English',full_marks:100,pass_marks:40,obtained_marks:85},{name:'Programming',full_marks:100,pass_marks:40,obtained_marks:90}] },
+        { roll_no:'BCA003', name:'Hari Thapa', faculty:'BCA', semester:'II',
+          subjects:[{name:'Math',full_marks:100,pass_marks:40,obtained_marks:35},{name:'English',full_marks:100,pass_marks:40,obtained_marks:55},{name:'Programming',full_marks:100,pass_marks:40,obtained_marks:60}] },
+      ];
+    }
+    renderMyStudents(allStudents);
+  }
+
+  async function findStudent() {
+    const roll = document.getElementById('searchRoll').value.trim().toUpperCase();
+    if (!roll) { alert('Enter Roll Number'); return; }
+
+    let student = allStudents.find(s => s.roll_no === roll);
+
+    if (!student) {
+      try {
+        const { doc, getDoc } = window._fb;
+        const snap = await getDoc(doc(window._db,'students',roll));
+        if (snap.exists()) student = snap.data();
+      } catch(e) {}
+    }
+
+    if (!student) { alert('Student not found!'); return; }
+    showMarksEntry(student);
+  }
+
+  function showMarksEntry(student) {
+    currentStudent = student;
+    document.getElementById('marksEntryArea').style.display = 'block';
+
+    document.getElementById('studentInfoBar').innerHTML = `
+      <div class="info-item"><div class="label">Name</div><div class="value">${student.name}</div></div>
+      <div class="info-item"><div class="label">Roll No</div><div class="value">${student.roll_no}</div></div>
+      <div class="info-item"><div class="label">Faculty</div><div class="value">${student.faculty}</div></div>
+      <div class="info-item"><div class="label">Semester</div><div class="value">${student.semester}</div></div>`;
+
+    const rows = student.subjects.map((sub,i) => {
+      const passed = sub.obtained_marks >= sub.pass_marks;
+      return `<tr>
+        <td style="font-weight:500">${sub.name}</td>
+        <td style="color:var(--muted);text-align:center">${sub.full_marks}</td>
+        <td style="color:var(--muted);text-align:center">${sub.pass_marks}</td>
+        <td><input type="number" id="marks_${i}" value="${sub.obtained_marks}" min="0" max="${sub.full_marks}" onchange="updateStatus(${i},${sub.pass_marks},${sub.full_marks})"/></td>
+        <td><span id="status_${i}" class="marks-status ${passed?'marks-done':'marks-pending'}">${passed?'✓ Pass':'✗ Fail'}</span></td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('marksTableBody').innerHTML = rows;
+    document.getElementById('marksEntryArea').scrollIntoView({behavior:'smooth'});
+  }
+
+  function updateStatus(i, passMark, fullMark) {
+    const val = parseInt(document.getElementById('marks_'+i).value) || 0;
+    const el = document.getElementById('status_'+i);
+    if (val > fullMark) { document.getElementById('marks_'+i).value = fullMark; return; }
+    const passed = val >= passMark;
+    el.textContent = passed ? '✓ Pass' : '✗ Fail';
+    el.className = 'marks-status ' + (passed ? 'marks-done' : 'marks-pending');
+  }
+
+  async function saveMarks() {
+    if (!currentStudent) return;
+    const updated = currentStudent.subjects.map((sub,i) => ({
+      ...sub,
+      obtained_marks: parseInt(document.getElementById('marks_'+i).value) || 0
+    }));
+    currentStudent.subjects = updated;
+
+    try {
+      const { doc, updateDoc } = window._fb;
+      await updateDoc(doc(window._db,'students',currentStudent.roll_no), { subjects: updated });
+    } catch(e) {}
+
+    // Update local
+    const idx = allStudents.findIndex(s => s.roll_no === currentStudent.roll_no);
+    if (idx >= 0) allStudents[idx] = currentStudent;
+
+    showToast('✓ Marks saved for ' + currentStudent.name + '!');
+    renderMyStudents(allStudents);
+  }
+
+  function cancelMarks() {
+    document.getElementById('marksEntryArea').style.display = 'none';
+    currentStudent = null;
+  }
+
+  function renderMyStudents(students) {
+    document.getElementById('myStudentsLabel').textContent = students.length + ' Students';
+    if (students.length === 0) {
+      document.getElementById('myStudentsList').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted)">No students found.</div>';
+      return;
+    }
+
+    const items = students.map(s => {
+      const total = s.subjects.reduce((a,b)=>a+b.obtained_marks,0);
+      const full = s.subjects.reduce((a,b)=>a+b.full_marks,0);
+      const pct = full ? ((total/full)*100).toFixed(0) : 0;
+      const passed = s.subjects.every(sub => sub.obtained_marks >= sub.pass_marks);
+      return `<div class="student-list-item">
+        <div>
+          <div class="s-name">${s.name}</div>
+          <div class="s-roll">${s.roll_no} · ${s.faculty} · Sem ${s.semester}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <span style="font-size:0.85rem;color:var(--muted)">${pct}%</span>
+          <span class="marks-status ${passed?'marks-done':'marks-pending'}">${passed?'Pass':'Fail'}</span>
+          <button class="btn-enter" onclick='enterMarksFor(${JSON.stringify(s).replace(/'/g,"&#39;")})'>Edit Marks</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    document.getElementById('myStudentsList').innerHTML = items;
+  }
+
+  function enterMarksFor(student) {
+    showTab('enterMarks', document.querySelector('.tab'));
+    document.querySelectorAll('.tab')[0].click();
+    showMarksEntry(student);
+  }
+
+  function filterMyStudents(q) {
+    const filtered = allStudents.filter(s =>
+      s.name.toLowerCase().includes(q.toLowerCase()) || s.roll_no.toLowerCase().includes(q.toLowerCase())
+    );
+    renderMyStudents(filtered);
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 3000);
+  }
+
+  function logout() {
+    sessionStorage.clear();
+    window.location.href = 'login.html';
+  }
+</script>
+</body>
+</html>
