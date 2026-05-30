@@ -3,382 +3,157 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Student Result Portal</title>
+<title>Student View — Result Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --bg: #0a0e1a;
-    --card: #111827;
-    --border: #1e2d45;
-    --accent: #3b82f6;
-    --accent2: #06b6d4;
-    --gold: #f59e0b;
-    --green: #10b981;
-    --red: #ef4444;
-    --text: #f1f5f9;
-    --muted: #64748b;
-  }
+  :root { --bg: #0a0e1a; --card: #111827; --border: #1e2d45; --accent: #3b82f6; --accent2: #06b6d4; --green: #10b981; --red: #ef4444; --text: #f1f5f9; --muted: #64748b; }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; }
 
-  /* Animated background */
-  body::before {
-    content:''; position:fixed; inset:0; z-index:0;
-    background: radial-gradient(ellipse at 20% 20%, rgba(59,130,246,0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 80%, rgba(6,182,212,0.06) 0%, transparent 60%);
-    pointer-events:none;
-  }
-
-  .nav {
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center;
-    background:rgba(10,14,26,0.85); backdrop-filter:blur(20px);
-    border-bottom:1px solid var(--border);
-  }
-  .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; letter-spacing:-0.02em; }
+  .nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; background:rgba(10,14,26,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+  .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; }
   .logo span { color:var(--accent); }
-  .nav-links a { color:var(--muted); text-decoration:none; font-size:0.85rem; margin-left:1.5rem; transition:color 0.2s; }
-  .nav-links a:hover { color:var(--text); }
+  .btn-logout { background:none; border:1px solid var(--border); color:var(--muted); padding:0.4rem 0.8rem; border-radius:6px; cursor:pointer; font-size:0.8rem; }
+  .btn-logout:hover { border-color:var(--red); color:var(--red); }
 
-  .hero {
-    position:relative; z-index:1;
-    min-height:100vh; display:flex; flex-direction:column;
-    align-items:center; justify-content:center;
-    padding:6rem 1rem 3rem;
-  }
+  .hero { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8rem 1rem 3rem; min-height: 90vh; }
+  h1 { font-family:'Syne',sans-serif; font-size:2.2rem; margin-bottom:1.5rem; text-align:center; }
 
-  .badge {
-    display:inline-flex; align-items:center; gap:0.4rem;
-    background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3);
-    color:var(--accent); padding:0.3rem 0.9rem; border-radius:999px;
-    font-size:0.75rem; font-weight:500; letter-spacing:0.05em;
-    margin-bottom:1.5rem; animation:fadeUp 0.6s ease both;
-  }
-  .badge::before { content:'●'; font-size:0.5rem; animation:pulse 2s infinite; }
-
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-
-  h1 {
-    font-family:'Syne',sans-serif; font-size:clamp(2.5rem,6vw,4.5rem);
-    font-weight:800; text-align:center; line-height:1.05;
-    letter-spacing:-0.03em; margin-bottom:1rem;
-    animation:fadeUp 0.6s 0.1s ease both;
-  }
-  h1 .gradient {
-    background:linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  }
-
-  .subtitle {
-    color:var(--muted); font-size:1.1rem; text-align:center;
-    max-width:480px; line-height:1.6; margin-bottom:3rem;
-    animation:fadeUp 0.6s 0.2s ease both;
-  }
-
-  .search-card {
-    background:var(--card); border:1px solid var(--border);
-    border-radius:20px; padding:2.5rem; width:100%; max-width:520px;
-    box-shadow:0 25px 60px rgba(0,0,0,0.4);
-    animation:fadeUp 0.6s 0.3s ease both;
-  }
-
-  .search-card h2 {
-    font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700;
-    margin-bottom:1.5rem; color:var(--text);
-  }
-
-  .input-group { margin-bottom:1rem; }
-  .input-group label { display:block; font-size:0.8rem; color:var(--muted); margin-bottom:0.4rem; letter-spacing:0.04em; text-transform:uppercase; }
-  .input-group input, .input-group select {
-    width:100%; padding:0.85rem 1rem; background:#0d1526;
-    border:1px solid var(--border); border-radius:10px;
-    color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.95rem;
-    transition:border-color 0.2s, box-shadow 0.2s; outline:none;
-  }
-  .input-group input:focus, .input-group select:focus {
-    border-color:var(--accent); box-shadow:0 0 0 3px rgba(59,130,246,0.1);
-  }
-  .input-group select option { background:#0d1526; }
-
-  .btn {
-    width:100%; padding:0.9rem; border:none; border-radius:10px;
-    font-family:'Syne',sans-serif; font-size:1rem; font-weight:700;
-    cursor:pointer; transition:all 0.2s; letter-spacing:0.02em;
-  }
-  .btn-primary {
-    background:linear-gradient(135deg, var(--accent), #2563eb);
-    color:#fff; box-shadow:0 4px 20px rgba(59,130,246,0.3);
-  }
-  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(59,130,246,0.4); }
-  .btn-primary:active { transform:translateY(0); }
-
-  /* Result Display */
-  #resultSection { display:none; width:100%; max-width:700px; margin-top:2rem; animation:fadeUp 0.5s ease both; }
-
-  .result-card {
-    background:var(--card); border:1px solid var(--border);
-    border-radius:20px; overflow:hidden;
-    box-shadow:0 25px 60px rgba(0,0,0,0.4);
-  }
-
-  .result-header {
-    padding:2rem; background:linear-gradient(135deg, rgba(59,130,246,0.15), rgba(6,182,212,0.1));
-    border-bottom:1px solid var(--border);
-    display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;
-  }
-  .student-info h3 { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; margin-bottom:0.3rem; }
-  .student-info p { color:var(--muted); font-size:0.85rem; }
-
-  .grade-badge {
-    display:flex; flex-direction:column; align-items:center;
-    background:rgba(0,0,0,0.3); border-radius:12px; padding:0.8rem 1.2rem;
-    border:1px solid var(--border);
-  }
-  .grade-letter { font-family:'Syne',sans-serif; font-size:2.5rem; font-weight:800; line-height:1; }
-  .grade-label { font-size:0.7rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
-
-  .stats-row {
-    display:grid; grid-template-columns:repeat(3,1fr);
-    border-bottom:1px solid var(--border);
-  }
-  .stat-item {
-    padding:1.2rem; text-align:center; border-right:1px solid var(--border);
-  }
+  #resultSection { width:100%; max-width:700px; }
+  .result-card { background:var(--card); border:1px solid var(--border); border-radius:20px; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.4); }
+  .result-header { padding:2rem; background:linear-gradient(135deg, rgba(59,130,246,0.15), rgba(6,182,212,0.1)); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+  
+  .stats-row { display:grid; grid-template-columns:repeat(3,1fr); border-bottom:1px solid var(--border); }
+  .stat-item { padding:1.2rem; text-align:center; border-right:1px solid var(--border); }
   .stat-item:last-child { border-right:none; }
   .stat-value { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:700; }
-  .stat-label { font-size:0.75rem; color:var(--muted); margin-top:0.2rem; }
+  .stat-label { font-size:0.75rem; color:var(--muted); }
 
-  .subjects-table { padding:1.5rem; }
-  .subjects-table h4 { font-family:'Syne',sans-serif; font-size:0.85rem; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:1rem; }
+  .table-responsive { width: 100%; overflow-x: auto; }
   table { width:100%; border-collapse:collapse; }
-  th { text-align:left; font-size:0.75rem; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; padding:0.5rem 0.75rem; }
-  td { padding:0.75rem; font-size:0.9rem; border-top:1px solid var(--border); }
-  tr:hover td { background:rgba(255,255,255,0.02); }
+  th, td { padding:1rem; font-size:0.9rem; text-align:left; }
+  td { border-top:1px solid var(--border); }
+  .progress-bar { height:4px; background:var(--border); border-radius:2px; overflow:hidden; width: 80px; }
+  .progress-fill { height:100%; }
 
-  .status-pass { color:var(--green); font-weight:600; font-size:0.8rem; }
-  .status-fail { color:var(--red); font-weight:600; font-size:0.8rem; }
-
-  .result-footer {
-    padding:1.2rem 1.5rem; background:rgba(0,0,0,0.2);
-    border-top:1px solid var(--border);
-    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;
+  @media (max-width: 600px) {
+    .stats-row { grid-template-columns: 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
   }
-  .overall-pass { color:var(--green); font-weight:700; font-family:'Syne',sans-serif; }
-  .overall-fail { color:var(--red); font-weight:700; font-family:'Syne',sans-serif; }
-
-  /* Error / loading */
-  .msg { padding:1.5rem; text-align:center; border-radius:12px; margin-top:1rem; font-size:0.9rem; }
-  .msg-error { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); color:#fca5a5; }
-  .msg-loading { background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); color:#93c5fd; }
-
-  .progress-bar { height:4px; background:var(--border); border-radius:2px; overflow:hidden; margin-top:0.5rem; }
-  .progress-fill { height:100%; border-radius:2px; transition:width 0.5s ease; }
-
-  footer { position:relative; z-index:1; text-align:center; padding:2rem; color:var(--muted); font-size:0.8rem; border-top:1px solid var(--border); }
-  footer a { color:var(--accent); text-decoration:none; }
 </style>
 </head>
 <body>
 
 <nav class="nav">
   <div class="logo">Result<span>Portal</span></div>
-  <div class="nav-links">
-    <a href="index.html">Results</a>
-    <a href="login.html">Admin / Teacher Login →</a>
+  <div>
+    <button class="btn-logout" onclick="logout()">Sign Out</button>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="badge">Academic Result System</div>
-  <h1>Check Your<br/><span class="gradient">Result Instantly</span></h1>
-  <p class="subtitle">Enter your Roll Number to view your complete result with grades and subject-wise marks.</p>
+  <h1 id="welcomeTitle">Processing Academic Token Profile...</h1>
 
-  <div class="search-card">
-    <h2>🔍 Search Result</h2>
-    <div class="input-group">
-      <label>Roll Number</label>
-      <input type="text" id="rollInput" placeholder="e.g. BCA001" onkeydown="if(event.key==='Enter')searchResult()"/>
-    </div>
-    <div class="input-group">
-      <label>Semester</label>
-      <select id="semInput">
-        <option value="">All Semesters</option>
-        <option value="I">Semester I</option>
-        <option value="II">Semester II</option>
-        <option value="III">Semester III</option>
-        <option value="IV">Semester IV</option>
-        <option value="V">Semester V</option>
-        <option value="VI">Semester VI</option>
-        <option value="VII">Semester VII</option>
-        <option value="VIII">Semester VIII</option>
-      </select>
-    </div>
-    <button class="btn btn-primary" onclick="searchResult()">View My Result →</button>
-    <div id="searchMsg"></div>
+  <div id="resultSection">
+    <div style="text-align:center; color:var(--muted);">Accessing database metrics record values sheet securely...</div>
   </div>
-
-  <div id="resultSection"></div>
 </section>
 
-<footer>
-  &copy; 2025 Result Portal &nbsp;|&nbsp; <a href="login.html">Admin Login</a>
-</footer>
-
-<!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   // ⚠️ REPLACE WITH YOUR REAL FIREBASE DETAILS HERE
   const firebaseConfig = {
-      apiKey: "AIzaSyD8Wr7Vxfe_GPjHTio9MXZGU-8SnOByb7Y",
-      authDomain: "result-7e39d.firebaseapp.com",
-      projectId: "result-7e39d",
-      storageBucket: "result-7e39d.firebasestorage.app",
-      messagingSenderId: "595440815648",
-      appId: "1:595440815648:web:1930aca4bf823e73a2f645",
-      measurementId: "G-MFS9J808H7"
-    
+    apiKey: "AIzaSyD8Wr7Vxfe_GPjHTio9MXZGU-8SnOByb7Y",
+    authDomain: "result-7e39d.firebaseapp.com",
+    projectId: "result-7e39d",
+    storageBucket: "result-7e39d.firebasestorage.app",
+    messagingSenderId: "595440815648",
+    appId: "1:595440815648:web:1930aca4bf823e73a2f645",
+    measurementId: "G-MFS9J808H7"
   };
 
   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
   const db = getFirestore(app);
 
-  window._auth = auth; window._db = db;
-  window._signIn = signInWithEmailAndPassword;
-  window._doc = doc; window._getDoc = getDoc;
+  window._db = db;
+  window._getDoc = getDoc;
+  window._doc = doc;
+
+  // Run automatically on layout loading instantiation
+  loadDirectStudentProfile();
 </script>
 
 <script>
-function gradeColor(g) {
-  if(['A+','A'].includes(g)) return '#10b981';
-  if(['B+','B'].includes(g)) return '#3b82f6';
-  if(['C+','C'].includes(g)) return '#f59e0b';
-  return '#ef4444';
-}
+  async function loadDirectStudentProfile() {
+    const role = sessionStorage.getItem('userRole');
+    const roll = sessionStorage.getItem('studentRoll');
 
-async function searchResult() {
-  const roll = document.getElementById('rollInput').value.trim();
-  const sem = document.getElementById('semInput').value;
-  const msgEl = document.getElementById('searchMsg');
-  const resultSection = document.getElementById('resultSection');
-
-  if (!roll) {
-    msgEl.innerHTML = '<div class="msg msg-error">Please enter your Roll Number.</div>';
-    return;
-  }
-
-  msgEl.innerHTML = '<div class="msg msg-loading">⏳ Searching...</div>';
-  resultSection.style.display = 'none';
-
-  try {
-    const db = window._db;
-    const { collection, query, where, getDocs } = window._fbModules;
-
-    let q = query(collection(db, 'students'), where('roll_no', '==', roll.toUpperCase()));
-    if (sem) q = query(collection(db, 'students'), where('roll_no', '==', roll.toUpperCase()), where('semester', '==', sem));
-
-    const snap = await getDocs(q);
-    if (snap.empty) {
-      msgEl.innerHTML = '<div class="msg msg-error">❌ No result found. Check your Roll Number.</div>';
+    if (role !== 'student' || !roll) {
+      alert("Unauthorized Access Attempt detected. Routing back to credentials login doorway.");
+      window.location.href = 'login.html';
       return;
     }
 
-    msgEl.innerHTML = '';
-    const student = snap.docs[0].data();
-    displayResult(student);
+    try {
+      const snap = await window._getDoc(window._doc(window._db, 'students', roll));
+      if (!snap.exists()) {
+        document.getElementById('resultSection').innerHTML = "<div class='result-card' style='padding:2rem;text-align:center;'>❌ Active student metrics tracking dataset was not found inside the live collection directory.</div>";
+        return;
+      }
 
-  } catch(e) {
-    // Demo mode - show sample result
-    msgEl.innerHTML = '';
-    displayResult({
-      name: "Ram Sharma", roll_no: roll.toUpperCase(),
-      faculty: "BCA", semester: sem || "II",
-      subjects: [
-        { name: "Mathematics", full_marks: 100, pass_marks: 40, obtained_marks: 78 },
-        { name: "English", full_marks: 100, pass_marks: 40, obtained_marks: 65 },
-        { name: "Programming", full_marks: 100, pass_marks: 40, obtained_marks: 88 },
-        { name: "Database", full_marks: 100, pass_marks: 40, obtained_marks: 72 },
-      ]
-    });
-  }
-}
-
-function displayResult(s) {
-  const total = s.subjects.reduce((a,b) => a + b.obtained_marks, 0);
-  const full = s.subjects.reduce((a,b) => a + b.full_marks, 0);
-  const pct = ((total/full)*100).toFixed(1);
-  const passed = s.subjects.every(sub => sub.obtained_marks >= sub.pass_marks);
-
-  function grade(p) {
-    p = parseFloat(p);
-    if(p>=90) return 'A+'; if(p>=80) return 'A'; if(p>=70) return 'B+';
-    if(p>=60) return 'B'; if(p>=50) return 'C+'; if(p>=40) return 'C'; return 'F';
+      displayResult(snap.data());
+    } catch(e) {
+      console.error(e);
+      document.getElementById('resultSection').innerHTML = "<div class='result-card' style='padding:2rem;text-align:center;'>⚠️ Configuration error mapping project file directory pointers.</div>";
+    }
   }
 
-  const g = grade(pct);
-  const gc = gradeColor(g);
+  function displayResult(s) {
+    document.getElementById('welcomeTitle').textContent = `Welcome, ${s.name}`;
+    
+    // Safeguard logic mapping checks for clean arrays structures
+    const subjectsList = s.subjects || [];
+    const total = subjectsList.reduce((a,b) => a + (b.obtained_marks || 0), 0);
+    const full = subjectsList.reduce((a,b) => a + (b.full_marks || 0), 0);
+    const pct = full ? ((total/full)*100).toFixed(1) : 0;
+    const passed = subjectsList.length > 0 ? subjectsList.every(sub => (sub.obtained_marks || 0) >= (sub.pass_marks || 0)) : false;
 
-  const rows = s.subjects.map(sub => {
-    const subPassed = sub.obtained_marks >= sub.pass_marks;
-    const subPct = ((sub.obtained_marks/sub.full_marks)*100).toFixed(0);
-    return `<tr>
-      <td>${sub.name}</td>
-      <td style="color:var(--muted)">${sub.full_marks}</td>
-      <td style="color:var(--muted)">${sub.pass_marks}</td>
-      <td style="font-weight:600">${sub.obtained_marks}</td>
-      <td>
-        <div class="progress-bar"><div class="progress-fill" style="width:${subPct}%;background:${subPassed?'var(--green)':'var(--red)'}"></div></div>
-      </td>
-      <td class="${subPassed?'status-pass':'status-fail'}">${subPassed?'✓ PASS':'✗ FAIL'}</td>
-    </tr>`;
-  }).join('');
+    const rows = subjectsList.map(sub => `
+      <tr>
+        <td><b>${sub.name}</b></td>
+        <td>${sub.full_marks}</td>
+        <td>${sub.pass_marks}</td>
+        <td style="color:${sub.obtained_marks >= sub.pass_marks ? '#10b981':'#ef4444'}; font-weight:600;">${sub.obtained_marks}</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:${(sub.obtained_marks/sub.full_marks)*100}%;background:${sub.obtained_marks >= sub.pass_marks?'#10b981':'#ef4444'}"></div></div></td>
+      </tr>`).join('');
 
-  const section = document.getElementById('resultSection');
-  section.style.display = 'block';
-  section.innerHTML = `
-    <div class="result-card">
-      <div class="result-header">
-        <div class="student-info">
-          <h3>${s.name}</h3>
-          <p>Roll No: ${s.roll_no} &nbsp;·&nbsp; ${s.faculty} &nbsp;·&nbsp; Semester ${s.semester}</p>
+    document.getElementById('resultSection').innerHTML = `
+      <div class="result-card">
+        <div class="result-header">
+          <h3>Academic Performance Matrix</h3>
+          <p style="color:var(--accent2); font-weight:600;">${s.roll_no} · Semester ${s.semester} · ${s.faculty}</p>
         </div>
-        <div class="grade-badge">
-          <div class="grade-letter" style="color:${gc}">${g}</div>
-          <div class="grade-label">Grade</div>
+        <div class="stats-row">
+          <div class="stat-item"><div class="stat-value">${total}/${full}</div><div class="stat-label">Aggregated Marks</div></div>
+          <div class="stat-item"><div class="stat-value">${pct}%</div><div class="stat-label">Score Percentage Scale</div></div>
+          <div class="stat-item"><div class="stat-value" style="color:${passed?'#10b981':'#ef4444'}">${passed?'PASS':'FAIL'}</div><div class="stat-label">Final Grade Standing</div></div>
         </div>
-      </div>
-      <div class="stats-row">
-        <div class="stat-item">
-          <div class="stat-value" style="color:var(--accent)">${total}/${full}</div>
-          <div class="stat-label">Total Marks</div>
+        <div class="table-responsive" style="padding:1rem;">
+          <table>
+            <thead><tr><th>Subject Title</th><th>Full Max</th><th>Pass Floor</th><th>Obtained Marks</th><th>Distribution Graph</th></tr></thead>
+            <tbody>${rows || '<tr><td colspan="5" style="text-align:center;color:var(--muted);">No evaluations entered for this profile yet.</td></tr>'}</tbody>
+          </table>
         </div>
-        <div class="stat-item">
-          <div class="stat-value" style="color:${gc}">${pct}%</div>
-          <div class="stat-label">Percentage</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value" style="color:${passed?'var(--green)':'var(--red)'}">${passed?'PASS':'FAIL'}</div>
-          <div class="stat-label">Result</div>
-        </div>
-      </div>
-      <div class="subjects-table">
-        <h4>Subject-wise Breakdown</h4>
-        <table>
-          <thead><tr><th>Subject</th><th>Full</th><th>Pass</th><th>Obtained</th><th style="min-width:80px">Progress</th><th>Status</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-      <div class="result-footer">
-        <span style="color:var(--muted);font-size:0.8rem">Generated: ${new Date().toLocaleDateString()}</span>
-        <span class="${passed?'overall-pass':'overall-fail'}">${passed?'🎉 Congratulations! You Passed':'📚 Work Harder. You Can Do It!'}</span>
-      </div>
-    </div>`;
-}
+      </div>`;
+  }
+
+  function logout() {
+    sessionStorage.clear();
+    window.location.href = 'login.html';
+  }
 </script>
 </body>
 </html>
+ 
