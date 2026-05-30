@@ -23,7 +23,7 @@
   .btn-logout { background:none; border:1px solid var(--border); color:var(--muted); padding:0.4rem 0.8rem; border-radius:6px; cursor:pointer; font-size:0.8rem; transition:all 0.2s; }
   .btn-logout:hover { border-color:var(--red); color:var(--red); }
 
-  .layout { display:flex; min-height:calc(100vh - 60px); }
+  .layout { display:flex; min-height:calc(100vh - 60px); flex-direction: row; }
 
   .sidebar {
     width:220px; border-right:1px solid var(--border);
@@ -40,22 +40,15 @@
   .sidebar-item.active { background:rgba(59,130,246,0.15); color:var(--accent); font-weight:600; }
 
   .main { flex:1; padding:2rem; overflow-y:auto; }
-
   .page-section { display:none; }
   .page-section.active { display:block; animation:fadeIn 0.3s ease; }
   @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
-  .page-header { margin-bottom:2rem; }
-  .page-header h2 { font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800; margin-bottom:0.3rem; }
-  .page-header p { color:var(--muted); font-size:0.9rem; }
-
-  /* Stats */
   .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1rem; margin-bottom:2rem; }
   .stat-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.2rem; }
   .stat-card .s-val { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; }
   .stat-card .s-lbl { color:var(--muted); font-size:0.8rem; margin-top:0.2rem; }
 
-  /* Form */
   .form-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:2rem; max-width:680px; }
   .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
   .form-group { margin-bottom:1rem; }
@@ -67,55 +60,48 @@
     color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.9rem; outline:none; transition:border-color 0.2s;
   }
   .form-group input:focus, .form-group select:focus { border-color:var(--accent); }
-  .form-group select option { background:#0d1526; }
 
   .subjects-area { margin-top:1.5rem; }
-  .subjects-area h4 { font-family:'Syne',sans-serif; font-size:0.85rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.75rem; }
+  .subject-header-row { display:grid; grid-template-columns:2fr 1fr 1fr 1fr auto; gap:0.5rem; margin-bottom:0.4rem; font-size:0.75rem; color:var(--muted); }
   .subject-row { display:grid; grid-template-columns:2fr 1fr 1fr 1fr auto; gap:0.5rem; align-items:end; margin-bottom:0.5rem; }
+  
   .btn-remove-sub { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); color:var(--red); padding:0.75rem 0.6rem; border-radius:8px; cursor:pointer; font-size:0.85rem; transition:all 0.2s; }
-  .btn-remove-sub:hover { background:rgba(239,68,68,0.2); }
-
   .btn-add-sub { background:rgba(6,182,212,0.1); border:1px dashed rgba(6,182,212,0.3); color:var(--accent2); padding:0.6rem 1rem; border-radius:8px; cursor:pointer; font-size:0.85rem; width:100%; margin-top:0.5rem; transition:all 0.2s; }
-  .btn-add-sub:hover { background:rgba(6,182,212,0.15); }
-
   .form-actions { display:flex; gap:1rem; margin-top:1.5rem; }
   .btn { padding:0.8rem 1.5rem; border-radius:8px; font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; cursor:pointer; border:none; transition:all 0.2s; }
   .btn-primary { background:linear-gradient(135deg,var(--accent),#2563eb); color:#fff; box-shadow:0 4px 15px rgba(59,130,246,0.3); }
-  .btn-primary:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(59,130,246,0.4); }
   .btn-secondary { background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--muted); }
 
-  /* Students table */
   .table-card { background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
-  .table-header { padding:1.2rem 1.5rem; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; }
-  .search-input { padding:0.6rem 1rem; background:#0d1526; border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.85rem; outline:none; width:220px; }
-  .search-input:focus { border-color:var(--accent); }
+  .table-header { padding: 1rem; border-bottom: 1px solid var(--border); }
+  .search-input { width: 100%; padding: 0.75rem 1rem; background: #0d1526; border: 1px solid var(--border); border-radius: 8px; color: var(--text); outline: none; }
+  .table-responsive { width: 100%; overflow-x: auto; }
   table { width:100%; border-collapse:collapse; }
-  th { text-align:left; font-size:0.7rem; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; padding:0.75rem 1rem; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2); }
+  th { text-align:left; font-size:0.7rem; color:var(--muted); padding:0.75rem 1rem; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2); }
   td { padding:0.9rem 1rem; font-size:0.85rem; border-bottom:1px solid rgba(30,45,69,0.5); }
-  tr:last-child td { border-bottom:none; }
-  tr:hover td { background:rgba(59,130,246,0.03); }
 
   .pass-chip { background:rgba(16,185,129,0.1); color:var(--green); padding:0.2rem 0.5rem; border-radius:4px; font-size:0.75rem; font-weight:600; }
   .fail-chip { background:rgba(239,68,68,0.1); color:var(--red); padding:0.2rem 0.5rem; border-radius:4px; font-size:0.75rem; font-weight:600; }
+  .btn-del { background: rgba(239, 68, 68, 0.15); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; }
+  .toast { position:fixed; bottom:2rem; right:2rem; background:var(--card); border:1px solid var(--green); color:var(--green); padding:0.75rem 1.2rem; border-radius:10px; display:none; z-index:1000; }
 
-  .action-btns { display:flex; gap:0.4rem; }
-  .btn-sm { padding:0.3rem 0.6rem; border-radius:5px; font-size:0.75rem; font-weight:600; cursor:pointer; border:none; transition:all 0.15s; }
-  .btn-view { background:rgba(59,130,246,0.1); color:var(--accent); }
-  .btn-del { background:rgba(239,68,68,0.1); color:var(--red); }
-  .btn-view:hover { background:rgba(59,130,246,0.2); }
-  .btn-del:hover { background:rgba(239,68,68,0.2); }
-
-  .toast { position:fixed; bottom:2rem; right:2rem; background:var(--card); border:1px solid var(--green); color:var(--green); padding:0.75rem 1.2rem; border-radius:10px; font-size:0.85rem; display:none; z-index:1000; box-shadow:0 8px 30px rgba(0,0,0,0.3); animation:slideIn 0.3s ease; }
-  @keyframes slideIn { from{transform:translateX(100px);opacity:0} to{transform:translateX(0);opacity:1} }
-
-  .empty-state { text-align:center; padding:3rem; color:var(--muted); }
-  .empty-state .icon { font-size:3rem; margin-bottom:1rem; }
+  @media (max-width: 768px) {
+    .layout { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid var(--border); padding: 1rem; display: flex; overflow-x: auto; gap: 0.5rem; }
+    .sidebar-label { display: none; }
+    .sidebar-item { margin-bottom: 0; white-space: nowrap; width: auto; padding: 0.5rem 1rem; }
+    .main { padding: 1rem; }
+    .form-grid { grid-template-columns: 1fr; }
+    .subject-header-row { display: none; }
+    .subject-row { grid-template-columns: 1fr; gap: 0.2rem; background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 1rem; }
+    .btn-remove-sub { width: 100%; text-align: center; margin-top: 0.5rem; }
+  }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="logo">Result<span>Portal</span> <span style="font-size:0.7rem;color:var(--muted);font-weight:400;margin-left:4px">Admin</span></div>
+  <div class="logo">Result<span>Portal</span> <span style="font-size:0.7rem;color:var(--muted);font-weight:400;margin-left:4px">Admin Panel</span></div>
   <div class="topbar-right">
     <span id="userName">Admin</span>
     <span class="badge-role">ADMIN</span>
@@ -129,114 +115,77 @@
     <button class="sidebar-item active" onclick="showSection('dashboard',this)">📊 Overview</button>
     <button class="sidebar-item" onclick="showSection('addStudent',this)">➕ Add Student</button>
     <button class="sidebar-item" onclick="showSection('students',this)">👥 All Students</button>
-    <div class="sidebar-label" style="margin-top:1.5rem">Management</div>
+    <div class="sidebar-label" style="margin-top:1.5rem">Staff Control</div>
     <button class="sidebar-item" onclick="showSection('addUser',this)">👤 Add Teacher</button>
-    <div class="sidebar-label" style="margin-top:1.5rem">Links</div>
-    <button class="sidebar-item" onclick="window.open('index.html')">🌐 View Portal</button>
   </aside>
 
   <main class="main">
-    <!-- DASHBOARD -->
     <div class="page-section active" id="section-dashboard">
-      <div class="page-header">
-        <h2>Overview</h2>
-        <p>Welcome back! Here's a summary of the system.</p>
-      </div>
+      <h2>System Status</h2><br/>
       <div class="stats-grid">
-        <div class="stat-card"><div class="s-val" id="totalCount" style="color:var(--accent)">—</div><div class="s-lbl">Total Students</div></div>
-        <div class="stat-card"><div class="s-val" id="passCount" style="color:var(--green)">—</div><div class="s-lbl">Passed</div></div>
-        <div class="stat-card"><div class="s-val" id="failCount" style="color:var(--red)">—</div><div class="s-lbl">Failed</div></div>
-        <div class="stat-card"><div class="s-val" id="avgPct" style="color:var(--gold)">—</div><div class="s-lbl">Class Average</div></div>
+        <div class="stat-card"><div class="s-val" id="totalCount">—</div><div class="s-lbl">Total Students</div></div>
+        <div class="stat-card"><div class="s-val" id="passCount">—</div><div class="s-lbl">Passed</div></div>
+        <div class="stat-card"><div class="s-val" id="failCount">—</div><div class="s-lbl">Failed</div></div>
+        <div class="stat-card"><div class="s-val" id="avgPct">—</div><div class="s-lbl">Class Average</div></div>
       </div>
-      <div id="topStudentCard"></div>
     </div>
 
-    <!-- ADD STUDENT -->
     <div class="page-section" id="section-addStudent">
-      <div class="page-header">
-        <h2>Add New Student</h2>
-        <p>Fill in student details and subject marks.</p>
-      </div>
       <div class="form-card">
         <div class="form-grid">
           <div class="form-group"><label>Roll Number *</label><input type="text" id="f_roll" placeholder="e.g. BCA001"/></div>
           <div class="form-group"><label>Full Name *</label><input type="text" id="f_name" placeholder="Student Name"/></div>
-          <div class="form-group"><label>Faculty</label>
-            <select id="f_faculty"><option>BCA</option><option>BIT</option><option>BIM</option><option>BSc.CSIT</option><option>BBA</option></select>
-          </div>
-          <div class="form-group"><label>Semester</label>
-            <select id="f_sem"><option>I</option><option>II</option><option>III</option><option>IV</option><option>V</option><option>VI</option><option>VII</option><option>VIII</option></select>
-          </div>
-          <div class="form-group full"><label>Academic Year</label><input type="text" id="f_year" placeholder="e.g. 2024-25"/></div>
+          <div class="form-group"><label>Faculty</label><select id="f_faculty"><option>BCA</option><option>BIT</option><option>BIM</option></select></div>
+          <div class="form-group"><label>Semester</label><select id="f_sem"><option>I</option><option>II</option><option>III</option><option>IV</option></select></div>
+          <div class="form-group full"><label>Portal Login Password *</label><input type="text" id="f_password" placeholder="Assign login password for student account" style="border-color: var(--accent2);"/></div>
+          <div class="form-group full"><label>Academic Year</label><input type="text" id="f_year" placeholder="e.g. 2026-27"/></div>
         </div>
 
         <div class="subjects-area">
-          <h4>Subjects & Marks</h4>
-          <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:0.5rem;margin-bottom:0.4rem;">
-            <span style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em">Subject Name</span>
-            <span style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em">Full</span>
-            <span style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em">Pass</span>
-            <span style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em">Obtained</span>
-            <span></span>
+          <h4>Subjects Structure & Baseline Scores</h4><br/>
+          <div class="subject-header-row">
+            <span>Subject Name</span><span>Full Marks</span><span>Pass Marks</span><span>Obtained Marks</span><span>Options</span>
           </div>
           <div id="subjectsContainer"></div>
-          <button class="btn-add-sub" onclick="addSubjectRow()">+ Add Subject</button>
+          <button class="btn-add-sub" onclick="addSubjectRow()">+ Add Subject Data Entry Row</button>
         </div>
-
         <div class="form-actions">
-          <button class="btn btn-primary" onclick="saveStudent()">💾 Save Student</button>
-          <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+          <button class="btn btn-primary" onclick="saveStudent()">💾 Save Student Profile</button>
+          <button class="btn btn-secondary" onclick="clearForm()">Clear Fields</button>
         </div>
       </div>
     </div>
 
-    <!-- ALL STUDENTS -->
     <div class="page-section" id="section-students">
-      <div class="page-header">
-        <h2>All Students</h2>
-        <p>View, search, and manage all students.</p>
-      </div>
       <div class="table-card">
         <div class="table-header">
-          <span style="font-family:'Syne',sans-serif;font-weight:700" id="studentsCountLabel">Students</span>
-          <input class="search-input" type="text" placeholder="Search by name or roll..." oninput="filterStudents(this.value)"/>
+          <input class="search-input" type="text" placeholder="Filter profiles by Name or Roll token..." oninput="filterStudents(this.value)"/>
         </div>
-        <div id="studentsTableBody">
-          <div class="empty-state"><div class="icon">📋</div><div>No students yet. Add some!</div></div>
-        </div>
+        <div class="table-responsive" id="studentsTableBody"></div>
       </div>
     </div>
 
-    <!-- ADD TEACHER -->
     <div class="page-section" id="section-addUser">
-      <div class="page-header">
-        <h2>Add Teacher Account</h2>
-        <p>Create login credentials for teachers.</p>
-      </div>
       <div class="form-card" style="max-width:480px">
-        <div class="form-group"><label>Teacher Name</label><input type="text" id="t_name" placeholder="Full Name"/></div>
-        <div class="form-group"><label>Email</label><input type="email" id="t_email" placeholder="teacher@school.com"/></div>
-        <div class="form-group"><label>Password</label><input type="password" id="t_pass" placeholder="Min 6 characters"/></div>
-        <div class="form-group"><label>Assigned Faculty</label>
-          <select id="t_faculty"><option>All</option><option>BCA</option><option>BIT</option><option>BIM</option><option>BSc.CSIT</option></select>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-primary" onclick="addTeacher()">Create Teacher Account</button>
-        </div>
+        <h3 style="margin-bottom:1rem; font-family:'Syne';">Create Teacher Account</h3>
+        <div class="form-group"><label>Teacher Name</label><input type="text" id="t_name" placeholder="Instructor Name"/></div>
+        <div class="form-group"><label>Login Email Identifier</label><input type="email" id="t_email" placeholder="teacher@school.com"/></div>
+        <div class="form-group"><label>Security Password</label><input type="password" id="t_pass" placeholder="••••••••"/></div>
+        <div class="form-group"><label>Assigned Department</label><select id="t_faculty"><option>BCA</option><option>BIT</option><option>BIM</option></select></div><br/>
+        <button class="btn btn-primary" onclick="addTeacher()">Create System Account</button>
       </div>
     </div>
   </main>
 </div>
 
-<div class="toast" id="toast">✓ Saved successfully!</div>
+<div class="toast" id="toast"></div>
 
-<!-- Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  // ⚠️ REPLACE WITH YOUR FIREBASE CONFIG
+  // ⚠️ REPLACE WITH YOUR REAL FIREBASE DETAILS HERE
   const firebaseConfig = {
     apiKey: "AIzaSyD8Wr7Vxfe_GPjHTio9MXZGU-8SnOByb7Y",
     authDomain: "result-7e39d.firebaseapp.com",
@@ -252,10 +201,10 @@
   const auth = getAuth(app);
 
   window._db = db; window._auth = auth;
-  window._fb = { collection, addDoc, getDocs, deleteDoc, doc, setDoc, createUserWithEmailAndPassword };
+  window._fb = { collection, getDocs, deleteDoc, doc, setDoc, createUserWithEmailAndPassword };
 
   onAuthStateChanged(auth, user => {
-    if (!user && !sessionStorage.getItem('userRole')) window.location.href = 'login.html';
+    if (!user && sessionStorage.getItem('userRole') !== 'admin') window.location.href = 'login.html';
   });
 </script>
 
@@ -263,11 +212,10 @@
   let allStudents = [];
   let subjectCount = 0;
 
-  document.getElementById('userName').textContent = sessionStorage.getItem('userName') || 'Admin';
+  document.getElementById('userName').textContent = sessionStorage.getItem('userName') || 'Admin Account';
 
-  // Init
   window.addEventListener('load', () => {
-    addSubjectRow(); addSubjectRow(); addSubjectRow();
+    addSubjectRow(); addSubjectRow();
     loadStudents();
   });
 
@@ -275,43 +223,37 @@
     document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
     document.getElementById('section-'+id).classList.add('active');
-    el.classList.add('active');
+    if(el) el.classList.add('active');
     if(id === 'students') renderStudentsTable(allStudents);
   }
 
   function addSubjectRow() {
     subjectCount++;
-    const id = subjectCount;
     const row = document.createElement('div');
-    row.className = 'subject-row'; row.id = 'subrow-'+id;
+    row.className = 'subject-row'; row.id = 'subrow-'+subjectCount;
     row.innerHTML = `
-      <input type="text" placeholder="Subject Name" class="sub-name"/>
-      <input type="number" placeholder="100" class="sub-full" value="100"/>
-      <input type="number" placeholder="40" class="sub-pass" value="40"/>
-      <input type="number" placeholder="0" class="sub-obtained"/>
-      <button class="btn-remove-sub" onclick="removeSubRow(${id})">✕</button>`;
+      <input type="text" placeholder="e.g. Mathematics" class="sub-name"/>
+      <input type="number" class="sub-full" value="100"/>
+      <input type="number" class="sub-pass" value="40"/>
+      <input type="number" class="sub-obtained" value="0"/>
+      <button class="btn-remove-sub" onclick="removeSubRow(${subjectCount})">✕</button>`;
     document.getElementById('subjectsContainer').appendChild(row);
   }
 
-  function removeSubRow(id) {
-    const el = document.getElementById('subrow-'+id);
-    if (el) el.remove();
-  }
-
+  function removeSubRow(id) { document.getElementById('subrow-'+id)?.remove(); }
+  
   function clearForm() {
-    ['f_roll','f_name','f_year'].forEach(id => document.getElementById(id).value = '');
+    ['f_roll','f_name','f_password','f_year'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('subjectsContainer').innerHTML = '';
-    subjectCount = 0;
-    addSubjectRow(); addSubjectRow(); addSubjectRow();
+    addSubjectRow(); addSubjectRow();
   }
 
   function getSubjects() {
-    const rows = document.querySelectorAll('#subjectsContainer .subject-row');
     const subjects = [];
-    rows.forEach(row => {
+    document.querySelectorAll('#subjectsContainer .subject-row').forEach(row => {
       const name = row.querySelector('.sub-name').value.trim();
-      const full = parseInt(row.querySelector('.sub-full').value) || 0;
-      const pass = parseInt(row.querySelector('.sub-pass').value) || 0;
+      const full = parseInt(row.querySelector('.sub-full').value) || 100;
+      const pass = parseInt(row.querySelector('.sub-pass').value) || 40;
       const obtained = parseInt(row.querySelector('.sub-obtained').value) || 0;
       if (name) subjects.push({ name, full_marks: full, pass_marks: pass, obtained_marks: obtained });
     });
@@ -321,52 +263,35 @@
   async function saveStudent() {
     const roll = document.getElementById('f_roll').value.trim().toUpperCase();
     const name = document.getElementById('f_name').value.trim();
-    if (!roll || !name) { alert('Roll No and Name are required!'); return; }
+    const password = document.getElementById('f_password').value.trim();
+    
+    if (!roll || !name || !password) { alert('Roll No, Full Name, and Student Password are required fields!'); return; }
     const subjects = getSubjects();
-    if (subjects.length === 0) { alert('Add at least one subject!'); return; }
 
     const student = {
-      roll_no: roll, name, faculty: document.getElementById('f_faculty').value,
-      semester: document.getElementById('f_sem').value,
-      year: document.getElementById('f_year').value,
+      roll_no: roll, name, password, faculty: document.getElementById('f_faculty').value,
+      semester: document.getElementById('f_sem').value, year: document.getElementById('f_year').value,
       subjects, createdAt: new Date().toISOString()
     };
 
     try {
-      const db = window._db;
-      const { doc, setDoc } = window._fb;
-      await setDoc(doc(db, 'students', roll), student);
+      await window._fb.setDoc(window._fb.doc(window._db, 'students', roll), student);
+      const existing = allStudents.findIndex(s => s.roll_no === roll);
+      if (existing >= 0) allStudents[existing] = student; else allStudents.push(student);
+      updateStats(); clearForm(); showToast('✓ Student baseline record committed successfully!');
     } catch(e) {
-      // Demo mode - store locally
+      alert("Database error: Check your live connection parameters. Details: " + e.message);
     }
-
-    // Add to local array
-    const existing = allStudents.findIndex(s => s.roll_no === roll);
-    if (existing >= 0) allStudents[existing] = student; else allStudents.push(student);
-
-    updateStats();
-    clearForm();
-    showToast('✓ Student '+name+' saved!');
   }
 
   async function loadStudents() {
     try {
-      const db = window._db;
-      const { collection, getDocs } = window._fb;
-      const snap = await getDocs(collection(db, 'students'));
+      const snap = await window._fb.getDocs(window._fb.collection(window._db, 'students'));
       allStudents = snap.docs.map(d => d.data());
+      updateStats();
     } catch(e) {
-      // Demo data
-      allStudents = [
-        { roll_no:'BCA001', name:'Ram Sharma', faculty:'BCA', semester:'II', year:'2024-25',
-          subjects:[{name:'Math',full_marks:100,pass_marks:40,obtained_marks:78},{name:'English',full_marks:100,pass_marks:40,obtained_marks:65},{name:'Programming',full_marks:100,pass_marks:40,obtained_marks:88}] },
-        { roll_no:'BCA002', name:'Sita Rai', faculty:'BCA', semester:'II', year:'2024-25',
-          subjects:[{name:'Math',full_marks:100,pass_marks:40,obtained_marks:92},{name:'English',full_marks:100,pass_marks:40,obtained_marks:85},{name:'Programming',full_marks:100,pass_marks:40,obtained_marks:90}] },
-        { roll_no:'BCA003', name:'Hari Thapa', faculty:'BCA', semester:'II', year:'2024-25',
-          subjects:[{name:'Math',full_marks:100,pass_marks:40,obtained_marks:35},{name:'English',full_marks:100,pass_marks:40,obtained_marks:55},{name:'Programming',full_marks:100,pass_marks:40,obtained_marks:60}] },
-      ];
+      console.log("Database connection idle/awaiting initialization steps.");
     }
-    updateStats();
   }
 
   function calcStudent(s) {
@@ -374,106 +299,60 @@
     const full = s.subjects.reduce((a,b) => a+b.full_marks,0);
     const pct = full ? ((total/full)*100) : 0;
     const passed = s.subjects.every(sub => sub.obtained_marks >= sub.pass_marks);
-    function grade(p) {
-      if(p>=90)return'A+';if(p>=80)return'A';if(p>=70)return'B+';if(p>=60)return'B';if(p>=50)return'C+';if(p>=40)return'C';return'F';
-    }
-    return { total, full, pct, passed, grade: grade(pct) };
+    return { total, full, pct, passed };
   }
 
   function updateStats() {
     const n = allStudents.length;
     const calcs = allStudents.map(calcStudent);
     const passed = calcs.filter(c=>c.passed).length;
-    const avg = n ? (calcs.reduce((a,c)=>a+c.pct,0)/n).toFixed(1) : '—';
     document.getElementById('totalCount').textContent = n;
     document.getElementById('passCount').textContent = passed;
     document.getElementById('failCount').textContent = n - passed;
-    document.getElementById('avgPct').textContent = n ? avg+'%' : '—';
-
-    if (n > 0) {
-      const topIdx = calcs.indexOf(calcs.reduce((a,b) => b.pct>a.pct?b:a));
-      const top = allStudents[topIdx]; const tc = calcs[topIdx];
-      document.getElementById('topStudentCard').innerHTML = `
-        <div style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(59,130,246,0.1));border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:1.2rem;display:flex;align-items:center;gap:1rem">
-          <div style="font-size:2rem">🏆</div>
-          <div>
-            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem">${top.name}</div>
-            <div style="color:var(--muted);font-size:0.85rem">${top.roll_no} · ${tc.pct.toFixed(1)}% · Grade ${tc.grade} · Top Student</div>
-          </div>
-        </div>`;
-    }
+    document.getElementById('avgPct').textContent = n ? (calcs.reduce((a,c)=>a+c.pct,0)/n).toFixed(1)+'%' : '—';
   }
 
   function renderStudentsTable(students) {
-    document.getElementById('studentsCountLabel').textContent = students.length + ' Students';
-    if (students.length === 0) {
-      document.getElementById('studentsTableBody').innerHTML = '<div class="empty-state"><div class="icon">📋</div><div>No students found.</div></div>';
-      return;
-    }
+    const container = document.getElementById('studentsTableBody');
+    if(students.length === 0) { container.innerHTML = "<p style='padding:1rem;color:var(--muted);'>No matching student logs available.</p>"; return; }
     const rows = students.map(s => {
       const c = calcStudent(s);
-      return `<tr>
-        <td style="font-weight:600">${s.roll_no}</td>
-        <td>${s.name}</td>
-        <td style="color:var(--muted)">${s.faculty}</td>
-        <td style="color:var(--muted)">Sem ${s.semester}</td>
-        <td>${c.total}/${c.full}</td>
-        <td style="font-weight:600">${c.pct.toFixed(1)}%</td>
-        <td style="font-family:'Syne',sans-serif;font-weight:700">${c.grade}</td>
-        <td><span class="${c.passed?'pass-chip':'fail-chip'}">${c.passed?'PASS':'FAIL'}</span></td>
-        <td><div class="action-btns">
-          <button class="btn-sm btn-view" onclick="viewStudent('${s.roll_no}')">View</button>
-          <button class="btn-sm btn-del" onclick="deleteStudent('${s.roll_no}')">Del</button>
-        </div></td>
-      </tr>`;
+      return `<tr><td><b>${s.roll_no}</b></td><td>${s.name}</td><td>Sem ${s.semester} (${s.faculty})</td><td>${c.total}/${c.full}</td><td>${c.pct.toFixed(1)}%</td><td><span class="${c.passed?'pass-chip':'fail-chip'}">${c.passed?'PASS':'FAIL'}</span></td><td><button class="btn-del" onclick="deleteStudent('${s.roll_no}')">Delete</button></td></tr>`;
     }).join('');
-    document.getElementById('studentsTableBody').innerHTML = `<table><thead><tr><th>Roll</th><th>Name</th><th>Faculty</th><th>Semester</th><th>Marks</th><th>%</th><th>Grade</th><th>Result</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table>`;
+    container.innerHTML = `<table><thead><tr><th>Roll No</th><th>Full Name</th><th>Semester Info</th><th>Total Score</th><th>Percentage</th><th>Status</th><th>Options</th></tr></thead><tbody>${rows}</tbody></table>`;
   }
 
   function filterStudents(q) {
-    const filtered = allStudents.filter(s => s.name.toLowerCase().includes(q.toLowerCase()) || s.roll_no.toLowerCase().includes(q.toLowerCase()));
-    renderStudentsTable(filtered);
+    renderStudentsTable(allStudents.filter(s => s.name.toLowerCase().includes(q.toLowerCase()) || s.roll_no.toLowerCase().includes(q.toLowerCase())));
   }
 
   async function deleteStudent(roll) {
-    if (!confirm('Delete student '+roll+'?')) return;
+    if (!confirm(`Are you sure you want to completely erase student data record [${roll}]?`)) return;
     try {
-      const { doc, deleteDoc } = window._fb;
-      await deleteDoc(doc(window._db, 'students', roll));
-    } catch(e) {}
-    allStudents = allStudents.filter(s => s.roll_no !== roll);
-    updateStats(); renderStudentsTable(allStudents);
-    showToast('🗑 Student deleted');
-  }
-
-  function viewStudent(roll) {
-    window.open('index.html#'+roll, '_blank');
+      await window._fb.deleteDoc(window._fb.doc(window._db, 'students', roll));
+      allStudents = allStudents.filter(s => s.roll_no !== roll);
+      updateStats(); renderStudentsTable(allStudents);
+      showToast('✓ Profile record purged.');
+    } catch(e) { alert("Action denied: " + e.message); }
   }
 
   async function addTeacher() {
     const name = document.getElementById('t_name').value.trim();
     const email = document.getElementById('t_email').value.trim();
     const pass = document.getElementById('t_pass').value;
-    if (!name||!email||!pass) { alert('Fill all fields!'); return; }
+    if(!name || !email || !pass) { alert('All fields required!'); return; }
     try {
-      const { createUserWithEmailAndPassword, doc, setDoc } = window._fb;
-      const cred = await createUserWithEmailAndPassword(window._auth, email, pass);
-      await setDoc(doc(window._db,'users',cred.user.uid), { name, email, role:'teacher', faculty: document.getElementById('t_faculty').value });
-      showToast('✓ Teacher account created!');
-      ['t_name','t_email','t_pass'].forEach(id => document.getElementById(id).value='');
-    } catch(e) { showToast('✓ Teacher saved (demo mode)'); }
+      const cred = await window._fb.createUserWithEmailAndPassword(window._auth, email, pass);
+      await window._fb.setDoc(window._fb.doc(window._db, 'users', cred.user.uid), { name, email, role: 'teacher', faculty: document.getElementById('t_faculty').value });
+      showToast('✓ Instructor account profile active!');
+      document.getElementById('t_name').value=''; document.getElementById('t_email').value=''; document.getElementById('t_pass').value='';
+    } catch(e) { alert("Account Creation Error: " + e.message); }
   }
 
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg; t.style.display = 'block';
-    setTimeout(() => t.style.display='none', 3000);
-  }
-
-  function logout() {
-    sessionStorage.clear();
-    window.location.href = 'login.html';
-  }
+  function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.style.display = 'block'; setTimeout(() => t.style.display='none', 3000); }
+  function logout() { sessionStorage.clear(); window._auth.signOut(); window.location.href = 'login.html'; }
 </script>
 </body>
 </html>
+
+ 
