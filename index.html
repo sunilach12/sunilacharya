@@ -14,9 +14,8 @@
   .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; }
   .logo span { color:var(--accent); }
   .btn-logout { background:none; border:1px solid var(--border); color:var(--muted); padding:0.4rem 0.8rem; border-radius:6px; cursor:pointer; font-size:0.8rem; }
-  .btn-logout:hover { border-color:var(--red); color:var(--red); }
 
-  .hero { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8rem 1rem 3rem; min-height: 90vh; }
+  .hero { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8rem 1rem 3rem; }
   h1 { font-family:'Syne',sans-serif; font-size:2.2rem; margin-bottom:1.5rem; text-align:center; }
 
   #resultSection { width:100%; max-width:700px; }
@@ -29,33 +28,24 @@
   .stat-value { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:700; }
   .stat-label { font-size:0.75rem; color:var(--muted); }
 
-  .table-responsive { width: 100%; overflow-x: auto; }
   table { width:100%; border-collapse:collapse; }
   th, td { padding:1rem; font-size:0.9rem; text-align:left; }
   td { border-top:1px solid var(--border); }
   .progress-bar { height:4px; background:var(--border); border-radius:2px; overflow:hidden; width: 80px; }
   .progress-fill { height:100%; }
-
-  @media (max-width: 600px) {
-    .stats-row { grid-template-columns: 1fr; }
-    .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
-  }
 </style>
 </head>
 <body>
 
 <nav class="nav">
   <div class="logo">Result<span>Portal</span></div>
-  <div>
-    <button class="btn-logout" onclick="logout()">Sign Out</button>
-  </div>
+  <div><button class="btn-logout" onclick="logout()">Sign Out</button></div>
 </nav>
 
 <section class="hero">
-  <h1 id="welcomeTitle">Processing Academic Token Profile...</h1>
-
+  <h1 id="welcomeTitle">Loading Performance Sheet...</h1>
   <div id="resultSection">
-    <div style="text-align:center; color:var(--muted);">Accessing database metrics record values sheet securely...</div>
+    <div style="text-align:center; color:var(--muted);">Accessing database metrics record values securely...</div>
   </div>
 </section>
 
@@ -73,15 +63,10 @@
     appId: "1:595440815648:web:1930aca4bf823e73a2f645",
     measurementId: "G-MFS9J808H7"
   };
-
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  window._db = db;
-  window._getDoc = getDoc;
-  window._doc = doc;
-
-  // Run automatically on layout loading instantiation
+  window._db = db; window._getDoc = getDoc; window._doc = doc;
   loadDirectStudentProfile();
 </script>
 
@@ -91,7 +76,6 @@
     const roll = sessionStorage.getItem('studentRoll');
 
     if (role !== 'student' || !roll) {
-      alert("Unauthorized Access Attempt detected. Routing back to credentials login doorway.");
       window.location.href = 'login.html';
       return;
     }
@@ -99,32 +83,26 @@
     try {
       const snap = await window._getDoc(window._doc(window._db, 'students', roll));
       if (!snap.exists()) {
-        document.getElementById('resultSection').innerHTML = "<div class='result-card' style='padding:2rem;text-align:center;'>❌ Active student metrics tracking dataset was not found inside the live collection directory.</div>";
+        document.getElementById('resultSection').innerHTML = "<div class='result-card' style='padding:2rem;'>❌ No scorecard found.</div>";
         return;
       }
-
       displayResult(snap.data());
     } catch(e) {
-      console.error(e);
-      document.getElementById('resultSection').innerHTML = "<div class='result-card' style='padding:2rem;text-align:center;'>⚠️ Configuration error mapping project file directory pointers.</div>";
+      document.getElementById('resultSection').innerHTML = "⚠️ Configuration mismatch.";
     }
   }
 
   function displayResult(s) {
     document.getElementById('welcomeTitle').textContent = `Welcome, ${s.name}`;
-    
-    // Safeguard logic mapping checks for clean arrays structures
     const subjectsList = s.subjects || [];
-    const total = subjectsList.reduce((a,b) => a + (b.obtained_marks || 0), 0);
-    const full = subjectsList.reduce((a,b) => a + (b.full_marks || 0), 0);
+    const total = subjectsList.reduce((a,b) => a + b.obtained_marks, 0);
+    const full = subjectsList.reduce((a,b) => a + b.full_marks, 0);
     const pct = full ? ((total/full)*100).toFixed(1) : 0;
-    const passed = subjectsList.length > 0 ? subjectsList.every(sub => (sub.obtained_marks || 0) >= (sub.pass_marks || 0)) : false;
+    const passed = subjectsList.every(sub => sub.obtained_marks >= sub.pass_marks);
 
     const rows = subjectsList.map(sub => `
       <tr>
-        <td><b>${sub.name}</b></td>
-        <td>${sub.full_marks}</td>
-        <td>${sub.pass_marks}</td>
+        <td><b>${sub.name}</b></td><td>${sub.full_marks}</td><td>${sub.pass_marks}</td>
         <td style="color:${sub.obtained_marks >= sub.pass_marks ? '#10b981':'#ef4444'}; font-weight:600;">${sub.obtained_marks}</td>
         <td><div class="progress-bar"><div class="progress-fill" style="width:${(sub.obtained_marks/sub.full_marks)*100}%;background:${sub.obtained_marks >= sub.pass_marks?'#10b981':'#ef4444'}"></div></div></td>
       </tr>`).join('');
@@ -132,28 +110,25 @@
     document.getElementById('resultSection').innerHTML = `
       <div class="result-card">
         <div class="result-header">
-          <h3>Academic Performance Matrix</h3>
-          <p style="color:var(--accent2); font-weight:600;">${s.roll_no} · Semester ${s.semester} · ${s.faculty}</p>
+          <h3>Academic Performance</h3>
+          <p style="color:var(--accent2); font-weight:600;">${s.roll_no} · Sem ${s.semester} · ${s.faculty}</p>
         </div>
         <div class="stats-row">
           <div class="stat-item"><div class="stat-value">${total}/${full}</div><div class="stat-label">Aggregated Marks</div></div>
-          <div class="stat-item"><div class="stat-value">${pct}%</div><div class="stat-label">Score Percentage Scale</div></div>
-          <div class="stat-item"><div class="stat-value" style="color:${passed?'#10b981':'#ef4444'}">${passed?'PASS':'FAIL'}</div><div class="stat-label">Final Grade Standing</div></div>
+          <div class="stat-item"><div class="stat-value">${pct}%</div><div class="stat-label">Percentage</div></div>
+          <div class="stat-item"><div class="stat-value" style="color:${passed?'#10b981':'#ef4444'}">${passed?'PASS':'FAIL'}</div><div class="stat-label">Outcome</div></div>
         </div>
-        <div class="table-responsive" style="padding:1rem;">
+        <div style="padding:1rem; overflow-x:auto;">
           <table>
-            <thead><tr><th>Subject Title</th><th>Full Max</th><th>Pass Floor</th><th>Obtained Marks</th><th>Distribution Graph</th></tr></thead>
-            <tbody>${rows || '<tr><td colspan="5" style="text-align:center;color:var(--muted);">No evaluations entered for this profile yet.</td></tr>'}</tbody>
+            <thead><tr><th>Subject</th><th>Full</th><th>Pass</th><th>Obtained</th><th>Graph</th></tr></thead>
+            <tbody>${rows}</tbody>
           </table>
         </div>
       </div>`;
   }
 
-  function logout() {
-    sessionStorage.clear();
-    window.location.href = 'login.html';
-  }
+  function logout() { sessionStorage.clear(); window.location.href = 'login.html'; }
 </script>
 </body>
 </html>
- 
+
